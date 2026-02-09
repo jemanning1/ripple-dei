@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Ripple - DEI Resource Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .ripple-icon {
+            font-size: 32px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* 3D Ripple background graphic */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: 
+                radial-gradient(circle at center, transparent 30%, rgba(102, 126, 234, 0.03) 30%, transparent 32%),
+                radial-gradient(circle at center, transparent 40%, rgba(102, 126, 234, 0.05) 40%, transparent 42%),
+                radial-gradient(circle at center, transparent 50%, rgba(102, 126, 234, 0.07) 50%, transparent 52%),
+                radial-gradient(circle at center, transparent 60%, rgba(102, 126, 234, 0.05) 60%, transparent 62%),
+                radial-gradient(circle at center, transparent 70%, rgba(102, 126, 234, 0.03) 70%, transparent 72%);
+            filter: blur(1px);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .header .tagline {
+            color: #666;
+            font-size: 14px;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .ripple-effect {
+            display: none;
+        }
+
+        .search-container {
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 18px 20px;
+            border: none;
+            border-radius: 30px;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-size: 18px;
+            position: relative;
+            z-index: 11;
+        }
+
+        .search-box:focus {
+            outline: none;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .category-tabs {
+            display: flex;
+            overflow-x: auto;
+            padding: 0 20px 20px;
+            gap: 12px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Add padding to first and last tabs so they're not cut off */
+        .category-tabs .tab:first-child {
+            margin-left: 0;
+        }
+
+        .category-tabs .tab:last-child {
+            margin-right: 20px;
+        }
+
+        .tab {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            padding: 18px 28px;
+            border-radius: 35px;
+            font-size: 17px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            position: relative;
+            overflow: visible;
+            color: #667eea;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            min-height: 56px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .tab.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transform: scale(1.05);
+        }
+
+        .content {
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 24px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+            min-height: 120px;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card:hover {
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 19px;
+            font-weight: 600;
+            color: #333;
+            flex: 1;
+            line-height: 1.4;
+        }
+
+        .card-icon {
+            font-size: 24px;
+            margin-left: 10px;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .tag {
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .tag.new {
+            background: #e8eaf6;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .floating-action {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 70px;
+            height: 70px;
+            border-radius: 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: 4px solid white;
+            font-size: 36px;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.5);
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .floating-action:active {
+            transform: scale(0.95);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            max-height: 90vh;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            padding: 30px 20px;
+            overflow-y: auto;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .detail-section {
+            margin-bottom: 20px;
+        }
+
+        .detail-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .detail-section p, .detail-section ul {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .detail-section ul {
+            padding-left: 20px;
+        }
+
+        .detail-section li {
+            margin-bottom: 8px;
+        }
+
+        .resource-link {
+            display: block;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .contact-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .contact-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .contact-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .submit-btn:active {
+            opacity: 0.9;
+        }
+
+        .success-message {
+            background: #00b894;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        .empty-state-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .empty-state-text {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-section">
+            <div style="position: relative; display: inline-block;">
+                <svg width="120" height="120" viewBox="0 0 120 120" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 0; opacity: 0.15;">
+                    <circle cx="60" cy="60" r="15" fill="none" stroke="#667eea" stroke-width="3"/>
+                    <circle cx="60" cy="60" r="28" fill="none" stroke="#667eea" stroke-width="2.5"/>
+                    <circle cx="60" cy="60" r="41" fill="none" stroke="#667eea" stroke-width="2"/>
+                    <circle cx="60" cy="60" r="54" fill="none" stroke="#764ba2" stroke-width="1.5"/>
+                </svg>
+                <h1 style="position: relative; z-index: 1; margin: 0;">Ripple</h1>
+            </div>
+        </div>
+        <p class="tagline">DEI Knowledge Hub for Semi-State/Public Sector Collaboration Group</p>
+        <div class="ripple-effect">
+            <div class="ripple-circle"></div>
+            <div class="ripple-circle"></div>
+            <div class="ripple-circle"></div>
+        </div>
+    </div>
+
+    <div class="stats-container" style="padding: 20px 20px 0;">
+        <div class="stat-box">
+            <div class="stat-number" id="resourceCount">247</div>
+            <div class="stat-label">Resources</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" id="contributorCount">1,423</div>
+            <div class="stat-label">Contributors</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" id="topicCount">28</div>
+            <div class="stat-label">Topics</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" id="expertCount">56</div>
+            <div class="stat-label">Experts</div>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search DEI topics, questions, resources..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    </div>
+
+    <div class="category-tabs" id="categoryTabs">
+        <button class="tab active" data-category="all">All</button>
+        <button class="tab" data-category="workplace">Workplace</button>
+        <button class="tab" data-category="hiring">Hiring & Recruiting</button>
+        <button class="tab" data-category="leadership">Leadership</button>
+        <button class="tab" data-category="accessibility">Accessibility</button>
+        <button class="tab" data-category="language">Inclusive Language</button>
+        <button class="tab" data-category="policy">Policy & Legal</button>
+    </div>
+
+    <div class="content" id="content">
+        <!-- Content will be dynamically inserted here -->
+    </div>
+
+    <button class="floating-action" id="addButton" title="Create a Ripple">+</button>
+
+    <!-- Detail Modal -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content" id="detailContent">
+            <!-- Detail content will be inserted here -->
+        </div>
+    </div>
+
+    <!-- Submit Modal -->
+    <div class="modal" id="submitModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Contribute a Resource</h2>
+                <button class="close-btn" id="closeSubmit">&times;</button>
+            </div>
+            <p style="color: #666; margin-bottom: 20px;">
+                Share your knowledge and expertise to support DEI across the public sector.
+            </p>
+            <div class="success-message" id="successMessage">
+                ✅ Thank you. Your contribution has been submitted for review.
+            </div>
+            <form id="submitForm">
+                <div class="form-group">
+                    <label>Resource Type</label>
+                    <select id="resourceType" required>
+                        <option value="">Select type...</option>
+                        <option value="question">Q&A / Common Question</option>
+                        <option value="article">Article / Guide</option>
+                        <option value="tool">Tool / Template</option>
+                        <option value="expert">Expert Contact</option>
+                        <option value="policy">Policy Example</option>
+                        <option value="training">Training Resource</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="submitCategory" required>
+                        <option value="">Select category...</option>
+                        <option value="workplace">Workplace</option>
+                        <option value="hiring">Hiring & Recruiting</option>
+                        <option value="leadership">Leadership</option>
+                        <option value="accessibility">Accessibility</option>
+                        <option value="language">Inclusive Language</option>
+                        <option value="policy">Policy & Legal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="submitTitle" required placeholder="Brief, descriptive title">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="submitDescription" required placeholder="Detailed explanation or answer..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Source/Link (optional)</label>
+                    <input type="url" id="submitLink" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>Your Name/Organization (optional)</label>
+                    <input type="text" id="submitName" placeholder="How should we credit you?">
+                </div>
+                <button type="submit" class="submit-btn">Submit Resource</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sample data structure
+        const resources = [
+            {
+                id: 1,
+                category: 'workplace',
+                title: 'How do I address microaggressions in team meetings?',
+                icon: '💬',
+                description: 'Practical strategies for responding to microaggressions in real-time while maintaining professional relationships.',
+                details: {
+                    answer: 'Addressing microaggressions requires a balance of directness and empathy. Here are evidence-based approaches:',
+                    strategies: [
+                        'Use the "name it" technique: Calmly state what you observed without accusation ("I noticed that comment...")',
+                        'Ask clarifying questions: "What did you mean by that?" gives the person a chance to self-correct',
+                        'Address privately when possible for first-time occurrences',
+                        'Document patterns for HR if behavior persists',
+                        'Create team norms proactively around respectful communication'
+                    ],
+                    resources: [
+                        { title: 'Microaggression Response Guide - Harvard Business Review', url: '#' },
+                        { title: 'SHRM Toolkit: Addressing Workplace Microaggressions', url: '#' },
+                        { title: 'Video Workshop: Responding in the Moment', url: '#' }
+                    ],
+                    experts: [
+                        { name: 'Dr. Sarah Chen', role: 'Organizational Psychologist', contact: 'schen@deiexperts.org' },
+                        { name: 'Marcus Williams', role: 'Workplace Mediation Specialist', contact: 'mwilliams@inclusion.com' }
+                    ]
+                },
+                tags: ['microaggressions', 'workplace culture', 'communication'],
+                dateAdded: '2024-01-15',
+                isNew: true
+            },
+            {
+                id: 2,
+                category: 'hiring',
+                title: 'Blind resume screening best practices',
+                icon: '👁️',
+                description: 'Implement bias-reduced hiring processes through structured blind screening techniques.',
+                details: {
+                    answer: 'Blind resume screening removes identifying information to reduce unconscious bias. Here\'s how to implement it effectively:',
+                    strategies: [
+                        'Remove names, photos, addresses, and graduation dates from initial screening',
+                        'Use standardized evaluation criteria for all candidates',
+                        'Train screeners on unconscious bias before implementation',
+                        'Track demographics at the end to measure impact',
+                        'Combine with structured interviews for best results'
+                    ],
+                    resources: [
+                        { title: 'Blind Hiring Implementation Guide - LinkedIn Talent', url: '#' },
+                        { title: 'Research: Impact of Blind Screening on Diversity', url: '#' },
+                        { title: 'Free Template: Blind Screening Scorecard', url: '#' }
+                    ],
+                    experts: [
+                        { name: 'Jennifer Park', role: 'Talent Acquisition Consultant', contact: 'jpark@talentdei.com' }
+                    ]
+                },
+                tags: ['hiring', 'unconscious bias', 'recruitment'],
+                dateAdded: '2024-01-12',
+                isNew: true
+            },
+            {
+                id: 3,
+                category: 'accessibility',
+                title: 'Making presentations accessible for all employees',
+                icon: '📊',
+                description: 'Comprehensive checklist for creating presentations that accommodate various disabilities and learning styles.',
+                details: {
+                    answer: 'Accessible presentations ensure everyone can engage with your content. Follow these guidelines:',
+                    strategies: [
+                        'Use sufficient color contrast (4.5:1 ratio minimum)',
+                        'Add alt text to all images and graphics',
+                        'Avoid relying solely on color to convey information',
+                        'Use large, readable fonts (minimum 18pt for body text)',
+                        'Provide captions for videos and transcripts for audio',
+                        'Share materials 24 hours in advance when possible',
+                        'Allow multiple ways to participate (verbal, chat, raised hand)'
+                    ],
+                    resources: [
+                        { title: 'WCAG Accessibility Guidelines for Presentations', url: '#' },
+                        { title: 'PowerPoint Accessibility Checker Tutorial', url: '#' },
+                        { title: 'Accessible Design Color Palette Generator', url: '#' }
+                    ],
+                    experts: [
+                        { name: 'Alex Thompson', role: 'Accessibility Consultant', contact: 'athompson@a11y.org' },
+                        { name: 'Priya Desai', role: 'UX Accessibility Specialist', contact: 'pdesai@access.com' }
+                    ]
+                },
+                tags: ['accessibility', 'presentations', 'inclusion'],
+                dateAdded: '2024-01-10',
+                isNew: false
+            },
+            {
+                id: 4,
+                category: 'language',
+                title: 'Gender-neutral language in professional communication',
+                icon: '✍️',
+                description: 'Guide to using inclusive, gender-neutral language in emails, documents, and conversations.',
+                details: {
+                    answer: 'Gender-neutral language respects all gender identities and creates a more inclusive environment:',
+                    strategies: [
+                        'Use "they/them" as singular pronouns when gender is unknown',
+                        'Replace "guys" with "everyone," "team," or "folks"',
+                        'Say "parental leave" instead of "maternity/paternity leave"',
+                        'Use "chair" or "chairperson" instead of "chairman"',
+                        'Ask for pronouns in introductions and email signatures',
+                        'Default to "Mx." when honorific is needed but unknown',
+                        'Use job titles without gender markers (server, not waitress)'
+                    ],
+                    resources: [
+                        { title: 'Inclusive Language Style Guide - Microsoft', url: '#' },
+                        { title: 'Gender-Neutral Language Database', url: '#' },
+                        { title: 'Quick Reference: Common Substitutions', url: '#' }
+                    ],
+                    experts: [
+                        { name: 'Taylor Rodriguez', role: 'LGBTQ+ Workplace Advocate', contact: 'trodriguez@pride.org' }
+                    ]
+                },
+                tags: ['language', 'gender', 'communication'],
+                dateAdded: '2024-01-08',
+                isNew: false
+            },
+            {
+                id: 5,
+                category: 'leadership',
+                title: 'Building psychological safety in diverse teams',
+                icon: '🛡️',
+                description: 'Research-backed methods for leaders to create environments where all team members feel safe to contribute.',
+                details: {
+                    answer: 'Psychological safety is the foundation of inclusive teams. Leaders can build it through:',
+                    strategies: [
+                        'Model vulnerability by acknowledging your own mistakes',
+                        'Actively solicit dissenting opinions in meetings',
+                        'Respond to concerns with curiosity, not defensiveness',
+                        'Create structured opportunities for quieter voices to contribute',
+                        'Address exclusionary behavior immediately and privately',
+                        'Celebrate learning from failures, not just successes',
+                        'Conduct regular pulse checks on team psychological safety'
+                    ],
+                    resources: [
+                        { title: 'Google\'s Project Aristotle Research on Team Effectiveness', url: '#' },
+                        { title: 'Psychological Safety Assessment Tool', url: '#' },
+                        { title: 'Amy Edmondson\'s Framework for Leaders', url: '#' }
+                    ],
+                    experts: [
+                        { name: 'Dr. James Patterson', role: 'Leadership Development Coach', contact: 'jpatterson@leaders.org' },
+                        { name: 'Nina Okonkwo', role: 'Team Dynamics Specialist', contact: 'nokonkwo@teams.com' }
+                    ]
+                },
+                tags: ['leadership', 'psychological safety', 'team culture'],
+                dateAdded: '2024-01-05',
+                isNew: false
+            },
+            {
+                id: 6,
+                category: 'policy',
+                title: 'Employee Resource Group (ERG) best practices',
+                icon: '👥',
+                description: 'Framework for establishing and supporting effective ERGs that drive real organizational change.',
+                details: {
+                    answer: 'Successful ERGs require organizational support and clear structure:',
+                    strategies: [
+                        'Provide dedicated budget and work hours for ERG activities',
+                        'Connect ERG leaders directly to executive sponsors',
+                        'Align ERG goals with business objectives for legitimacy',
+                        'Rotate leadership to prevent burnout',
+                        'Create cross-ERG collaboration opportunities',
+                        'Measure impact beyond event attendance (policy changes, retention)',
+                        'Ensure ERG membership doesn\'t limit career advancement'
+                    ],
+                    resources: [
+                        { title: 'ERG Governance Framework Template', url: '#' },
+                        { title: 'Case Study: Microsoft ERG Impact Report', url: '#' },
+                        { title: 'ERG Leadership Development Program Guide', url: '#' }
+                    ],
+                    experts: [
+                        { name: 'Carmen Martinez', role: 'ERG Strategy Consultant', contact: 'cmartinez@ergs.org' }
+                    ]
+                },
+                tags: ['ERGs', 'policy', 'employee engagement'],
+                dateAdded: '2024-01-03',
+                isNew: false
+            },
+            {
+                id: 7,
+                category: 'workplace',
+                title: 'Accommodating religious practices in the workplace',
+                icon: '🕌',
+                description: 'Legal requirements and practical solutions for supporting employees\' religious observances.',
+                details: {
+                    answer: 'Employers must provide reasonable accommodations for religious practices unless it creates undue hardship:',
+                    strategies: [
+                        'Provide flexible scheduling for prayer times and religious holidays',
+                        'Designate quiet spaces for prayer or meditation',
+                        'Allow religious dress and grooming practices',
+                        'Offer floating holidays instead of fixed company holidays',
+                        'Modify dress codes to accommodate religious attire',
+                        'Train managers on religious accommodation laws',
+                        'Create a clear accommodation request process'
+                    ],
+                    resources: [
+                        { title: 'EEOC Religious Discrimination Guidelines', url: '#' },
+                        { title: 'Multi-Faith Calendar for HR Planning', url: '#' },
+                        { title: 'Religious Accommodation Request Template', url: '#' }
+                    ],
+                    experts: [
+                        { name: 'Rabbi David Goldstein', role: 'Interfaith Workplace Consultant', contact: 'dgoldstein@interfaith.org' },
+                        { name: 'Fatima Ahmed', role: 'Religious Inclusion Specialist', contact: 'fahmed@inclusion.com' }
+                    ]
+                },
+                tags: ['religion', 'accommodation', 'legal'],
+                dateAdded: '2024-01-01',
+                isNew: false
+            },
+            {
+                id: 8,
+                category: 'hiring',
+                title: 'Neurodiversity-friendly interview processes',
+                icon: '🧠',
+                description: 'Adapting recruitment to identify talent among neurodivergent candidates (autism, ADHD, dyslexia).',
+                details: {
+                    answer: 'Traditional interviews can disadvantage neurodivergent candidates. Create more inclusive processes:',
+                    strategies: [
+                        'Share interview questions in advance to reduce anxiety',
+                        'Offer alternative assessment methods (work samples, take-home projects)',
+                        'Minimize sensory distractions (bright lights, noise)',
+                        'Allow breaks during long interview sessions',
+                        'Focus on skills and outcomes, not eye contact or small talk',
+                        'Provide clear, literal communication (avoid idioms)',
+                        'Consider asynchronous interviews for written responses'
+                    ],
+                    resources: [
+                        { title: 'Neurodiversity @ Work Employer Guide', url: '#' },
+                        { title: 'SAP Autism at Work Program Case Study', url: '#' },
+                        { title: 'Interview Accommodations Checklist', url: '#' }
+                    ],
+                    experts: [
+                        { name: 'Dr. Maya Patel', role: 'Neurodiversity Consultant', contact: 'mpatel@neuro.org' }
+                    ]
+                },
+                tags: ['neurodiversity', 'hiring', 'accessibility'],
+                dateAdded: '2023-12-28',
+                isNew: false
+            }
+        ];
+
+        let currentCategory = 'all';
+        let currentSearch = '';
+
+        function renderResources() {
+            const content = document.getElementById('content');
+            const filtered = resources.filter(r => {
+                const matchesCategory = currentCategory === 'all' || r.category === currentCategory;
+                const matchesSearch = currentSearch === '' || 
+                    r.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                    r.description.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                    r.tags.some(tag => tag.toLowerCase().includes(currentSearch.toLowerCase()));
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <div class="empty-state-text">No resources found. Try a different search or category.</div>
+                    </div>
+                `;
+                return;
+            }
+
+            content.innerHTML = filtered.map(resource => `
+                <div class="card" onclick="showDetail(${resource.id})">
+                    <div class="card-header">
+                        <div class="card-title">${resource.title}</div>
+                        <div class="card-icon">${resource.icon}</div>
+                    </div>
+                    <div class="card-description">${resource.description}</div>
+                    <div class="card-meta">
+                        ${resource.isNew ? '<span class="tag new">NEW</span>' : ''}
+                        ${resource.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showDetail(id) {
+            const resource = resources.find(r => r.id === id);
+            if (!resource) return;
+
+            const modal = document.getElementById('detailModal');
+            const content = document.getElementById('detailContent');
+
+            content.innerHTML = `
+                <div class="modal-header">
+                    <h2 class="modal-title">${resource.icon} ${resource.title}</h2>
+                    <button class="close-btn" onclick="closeModal('detailModal')">&times;</button>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Overview</h3>
+                    <p>${resource.details.answer}</p>
+                </div>
+
+                ${resource.details.strategies ? `
+                    <div class="detail-section">
+                        <h3>Key Strategies</h3>
+                        <ul>
+                            ${resource.details.strategies.map(s => `<li>${s}</li>`).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+
+                ${resource.details.resources && resource.details.resources.length > 0 ? `
+                    <div class="detail-section">
+                        <h3>Additional Resources</h3>
+                        ${resource.details.resources.map(r => `
+                            <a href="${r.url}" class="resource-link" target="_blank">
+                                📚 ${r.title}
+                            </a>
+                        `).join('')}
+                    </div>
+                ` : ''}
+
+                ${resource.details.experts && resource.details.experts.length > 0 ? `
+                    <div class="detail-section">
+                        <h3>Expert Contacts</h3>
+                        ${resource.details.experts.map(e => `
+                            <div class="contact-card">
+                                <div class="contact-name">👤 ${e.name}</div>
+                                <div class="contact-info">${e.role}</div>
+                                <div class="contact-info">📧 ${e.contact}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+
+                <div class="detail-section">
+                    <p style="font-size: 13px; color: #999; font-style: italic;">
+                        Last updated: ${new Date(resource.dateAdded).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    </p>
+                </div>
+            `;
+
+            modal.style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Event listeners
+        let searchTimeout;
+        document.getElementById('searchBox').addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                renderResources();
+            }, 150);
+        });
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                // Change active tab
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                e.target.classList.add('active');
+                currentCategory = e.target.dataset.category;
+                renderResources();
+            });
+        });
+
+        document.getElementById('addButton').addEventListener('click', () => {
+            document.getElementById('submitModal').style.display = 'block';
+        });
+
+        document.getElementById('closeSubmit').addEventListener('click', () => {
+            closeModal('submitModal');
+        });
+
+        document.getElementById('submitForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Show success message immediately
+            document.getElementById('successMessage').style.display = 'block';
+            
+            try {
+                // Create a hidden iframe to submit the form
+                const iframe = document.createElement('iframe');
+                iframe.name = 'hidden_iframe';
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                
+                // Create a temporary form
+                const form = document.createElement('form');
+                form.action = 'https://script.google.com/macros/s/AKfycbzbG0_v5aLYtqownbQcP1mRJfAsEsSqXc8tTD1M_wKLsv-g52AxpyiW4xk4nAv2jEL3/exec';
+                form.method = 'POST';
+                form.target = 'hidden_iframe';
+                
+                // Add form fields
+                const fields = {
+                    resourceType: document.getElementById('resourceType').value,
+                    category: document.getElementById('submitCategory').value,
+                    title: document.getElementById('submitTitle').value,
+                    description: document.getElementById('submitDescription').value,
+                    link: document.getElementById('submitLink').value,
+                    submittedBy: document.getElementById('submitName').value || 'Anonymous'
+                };
+                
+                Object.keys(fields).forEach(key => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = fields[key];
+                    form.appendChild(input);
+                });
+                
+                document.body.appendChild(form);
+                form.submit();
+                
+                // Clean up and close modal
+                setTimeout(() => {
+                    document.body.removeChild(form);
+                    document.body.removeChild(iframe);
+                    document.getElementById('successMessage').style.display = 'none';
+                    closeModal('submitModal');
+                    document.getElementById('submitForm').reset();
+                }, 2500);
+                
+            } catch (error) {
+                console.error('Submission error:', error);
+                document.getElementById('successMessage').style.display = 'none';
+                alert('There was an error submitting your resource. Please try again or email directly to jemanning1@gmail.com');
+            }
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+
+        // Initial render
+        renderResources();
+
+        // Animate stats
+        function animateStats() {
+            const stats = [
+                { id: 'resourceCount', target: 247, suffix: '' },
+                { id: 'contributorCount', target: 1423, suffix: '' },
+                { id: 'topicCount', target: 28, suffix: '' },
+                { id: 'expertCount', target: 56, suffix: '' }
+            ];
+
+            stats.forEach(stat => {
+                let current = 0;
+                const increment = Math.ceil(stat.target / 50);
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= stat.target) {
+                        current = stat.target;
+                        clearInterval(timer);
+                    }
+                    document.getElementById(stat.id).textContent = current + stat.suffix;
+                }, 30);
+            });
+        }
+
+        animateStats();
+    </script>
+</body>
+</html>
