@@ -489,6 +489,7 @@
             </div>
         </div>
         <p class="tagline">DEI Knowledge Hub for Semi-State/Public Sector Organisations</p>
+        <button onclick="openModal('aboutModal')" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.9); border: 2px solid #667eea; color: #667eea; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">?</button>
         <div class="ripple-effect">
             <div class="ripple-circle"></div>
             <div class="ripple-circle"></div>
@@ -538,7 +539,7 @@
     <!-- Footer -->
     <div style="text-align: center; padding: 40px 20px 30px; color: #999; font-size: 14px; border-top: 1px solid #eee; margin-top: 40px;">
         <p style="margin: 0 0 8px 0; font-style: italic;">Ripple is a collaborative DEI knowledge hub developed by and for Ireland's semi-state and public sector organisations.</p>
-        <p style="margin: 0; font-size: 12px;">© 2025 Jacqueline Manning. Licensed under CC BY-NC-SA 4.0 for non-commercial use.</p>
+        <p style="margin: 0; font-size: 12px;">© 2026 Jacqueline Manning. Licensed under CC BY-NC-SA 4.0 for non-commercial use.</p>
     </div>
 
     <!-- Detail Modal -->
@@ -556,7 +557,7 @@
                 <button class="close-btn" id="closeSubmit">&times;</button>
             </div>
             <p style="color: #666; margin-bottom: 20px;">
-                Share your knowledge and expertise to support DEI across the public sector.
+                Share your knowledge and expertise to support DEI across the public sector. Submissions are reviewed by the collaborative group and approved resources typically appear within 1-2 weeks.
             </p>
             <div class="success-message" id="successMessage">
                 ✅ Thank you. Your contribution has been submitted for review.
@@ -607,96 +608,138 @@
         </div>
     </div>
 
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">About Ripple</h2>
+                <button class="close-btn" onclick="closeModal('aboutModal')">&times;</button>
+            </div>
+            
+            <div style="padding: 20px; line-height: 1.6;">
+                <h3 style="color: #667eea; margin-top: 0;">What is Ripple?</h3>
+                <p>Ripple is a collaborative DEI (Diversity, Equity, and Inclusion) knowledge hub created by and for Ireland's semi-state and public sector organisations.</p>
+                
+                <p>We believe DEI knowledge should be:</p>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li><strong>Accessible</strong> - Available on any device, searchable, easy to find</li>
+                    <li><strong>Practical</strong> - Real-world guidance for everyday situations</li>
+                    <li><strong>Collaborative</strong> - Shared wisdom across organisations</li>
+                    <li><strong>Irish-focused</strong> - Relevant to our context, laws, and culture</li>
+                </ul>
+
+                <h3 style="color: #667eea; margin-top: 20px;">How It Works</h3>
+                
+                <p><strong>📚 Browse Resources</strong><br>
+                Search or filter by category to find guidance on workplace DEI topics, from pronouns to accessibility to hiring practices.</p>
+                
+                <p><strong>🤝 Contribute Knowledge</strong><br>
+                Share your organisation's DEI resources, policies, or lessons learned by clicking the + button. Submissions are reviewed by the collaborative group.</p>
+                
+                <p><strong>🌊 Create Ripples</strong><br>
+                When you contribute a resource, it helps colleagues across multiple organisations - creating ripples of positive change throughout the Irish public sector.</p>
+
+                <h3 style="color: #667eea; margin-top: 20px;">What Happens When I Submit?</h3>
+                <p>Submissions go to the collaborative group for review. Approved resources typically appear on the site within 1-2 weeks. You'll be credited for your contribution (or can remain anonymous if you prefer).</p>
+
+                <h3 style="color: #667eea; margin-top: 20px;">Who's Behind This?</h3>
+                <p>Ripple is a collaborative project of DEI practitioners from Gas Networks Ireland, ESB, Uisce Éireann, RTÉ, TG4, Iarnród Éireann, Dublin Bus, Defence Forces, Bord na Móna, VHI, IDA Ireland, and other semi-state and public sector organisations.</p>
+
+                <p style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #666;">
+                Created by Jacqueline Manning • Licensed under CC BY-NC-SA 4.0 for non-commercial use
+                </p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Sample data structure
         const resources = [
             {
                 id: 1,
-                category: 'workplace',
-                title: 'How do I address microaggressions in team meetings?',
-                icon: '💬',
-                description: 'Practical strategies for responding to microaggressions in real-time while maintaining professional relationships.',
+                category: 'policy',
+                title: 'Essential Irish DEI Resources and Legal Framework',
+                icon: '📚',
+                description: 'Key Irish resources, legislation, and organisations for DEI practitioners in the public sector.',
                 details: {
-                    answer: 'Addressing microaggressions requires a balance of directness and empathy. Here are evidence-based approaches:',
+                    answer: 'Ireland has a robust framework of DEI legislation and support organisations. Here are the essential resources every public sector organisation should know:',
                     strategies: [
-                        'Use the "name it" technique: Calmly state what you observed without accusation ("I noticed that comment...")',
-                        'Ask clarifying questions: "What did you mean by that?" gives the person a chance to self-correct',
-                        'Address privately when possible for first-time occurrences',
-                        'Document patterns for HR if behaviour persists',
-                        'Create team norms proactively around respectful communication'
+                        'Irish Human Rights and Equality Commission (IHREC) - statutory body providing guidance and enforcement',
+                        'Citizens Information - practical guidance on employment equality and rights',
+                        'Workplace Relations Commission (WRC) - handles equality complaints and mediation',
+                        'National Disability Authority - accessibility standards and guidance',
+                        'GLEN (Gay and Lesbian Equality Network) - LGBTQ+ workplace inclusion resources'
                     ],
                     resources: [
-                        { title: 'Microaggression Response Guide - Harvard Business Review', url: '#' },
-                        { title: 'SHRM Toolkit: Addressing Workplace Microaggressions', url: '#' },
-                        { title: 'Video Workshop: Responding in the Moment', url: '#' }
+                        { title: 'IHREC - Equality and Human Rights Resources', url: 'https://www.ihrec.ie' },
+                        { title: 'Citizens Information - Employment Equality', url: 'https://www.citizensinformation.ie/en/employment/equality_in_work/' },
+                        { title: 'WRC - Equality Information', url: 'https://www.workplacerelations.ie/en/what_you_should_know/equality/' },
+                        { title: 'National Disability Authority - Universal Design', url: 'https://www.nda.ie' },
+                        { title: 'GLEN - Workplace Equality Resources', url: 'https://www.glen.ie' }
                     ],
-                    experts: [
-                        { name: 'Dr. Sarah Chen', role: 'Organisational Psychologist', contact: 'schen@deiexperts.org' },
-                        { name: 'Marcus Williams', role: 'Workplace Mediation Specialist', contact: 'mwilliams@inclusion.com' }
-                    ]
+                    experts: []
                 },
-                tags: ['microaggressions', 'workplace culture', 'communication'],
-                dateAdded: '2024-01-15',
+                tags: ['policy', 'legislation', 'irish resources', 'legal framework'],
+                dateAdded: '2026-02-10',
+                submittedBy: 'Collaborative Group',
                 isNew: true
             },
             {
                 id: 2,
-                category: 'hiring',
-                title: 'Blind resume screening best practices',
-                icon: '👁️',
-                description: 'Implement bias-reduced hiring processes through structured blind screening techniques.',
+                category: 'leadership',
+                title: 'Measuring DEI Impact: KPIs and Metrics Toolkit',
+                icon: '📊',
+                description: 'Framework for setting DEI objectives and measuring progress with meaningful KPIs.',
                 details: {
-                    answer: 'Blind resume screening removes identifying information to reduce unconscious bias. Here\'s how to implement it effectively:',
+                    answer: 'Effective DEI programmes require clear measurement. The Royal Academy of Engineering provides a comprehensive toolkit for measuring inclusion in organisations:',
                     strategies: [
-                        'Remove names, photos, addresses, and graduation dates from initial screening',
-                        'Use standardized evaluation criteria for all candidates',
-                        'Train screeners on unconscious bias before implementation',
-                        'Track demographics at the end to measure impact',
-                        'Combine with structured interviews for best results'
+                        'Set baseline metrics across recruitment, retention, progression, and engagement',
+                        'Track both quantitative data (demographics, pay gaps) and qualitative feedback (surveys, focus groups)',
+                        'Use the Engineering Inclusion Framework to assess current state and identify gaps',
+                        'Monitor intersectionality - don\'t just track single characteristics',
+                        'Report transparently to build accountability and trust',
+                        'Review and adjust KPIs annually based on what\'s working'
                     ],
                     resources: [
-                        { title: 'Blind Hiring Implementation Guide - LinkedIn Talent', url: '#' },
-                        { title: 'Research: Impact of Blind Screening on Diversity', url: '#' },
-                        { title: 'Free Template: Blind Screening Scorecard', url: '#' }
+                        { title: 'Royal Academy of Engineering - Inclusion Toolkit', url: 'https://www.raeng.org.uk/diversity-and-inclusion/inclusion-toolkit' },
+                        { title: 'IHREC - Public Sector Equality and Human Rights Duty Guidance', url: 'https://www.ihrec.ie/our-work/public-sector-duty/' },
+                        { title: 'Investors in Diversity - Irish DEI Accreditation', url: 'https://www.nsai.ie/certification/diversity-inclusion/' }
                     ],
-                    experts: [
-                        { name: 'Jennifer Park', role: 'Talent Acquisition Consultant', contact: 'jpark@talentdei.com' }
-                    ]
+                    experts: []
                 },
-                tags: ['hiring', 'unconscious bias', 'recruitment'],
-                dateAdded: '2024-01-12',
+                tags: ['kpis', 'measurement', 'metrics', 'accountability', 'data'],
+                dateAdded: '2026-02-10',
+                submittedBy: 'Collaborative Group',
                 isNew: true
             },
             {
                 id: 3,
                 category: 'accessibility',
-                title: 'Making presentations accessible for all employees',
-                icon: '📊',
-                description: 'Comprehensive checklist for creating presentations that accommodate various disabilities and learning styles.',
+                title: 'Web Accessibility Requirements for Irish Public Sector',
+                icon: '♿',
+                description: 'Legal requirements and practical guidance for making websites and digital services accessible under Irish and EU law.',
                 details: {
-                    answer: 'Accessible presentations ensure everyone can engage with your content. Follow these guidelines:',
+                    answer: 'Irish public sector bodies must comply with the European Accessibility Act and Irish regulations. Here\'s what you need to know:',
                     strategies: [
-                        'Use sufficient color contrast (4.5:1 ratio minimum)',
-                        'Add alt text to all images and graphics',
-                        'Avoid relying solely on color to convey information',
-                        'Use large, readable fonts (minimum 18pt for body text)',
-                        'Provide captions for videos and transcripts for audio',
-                        'Share materials 24 hours in advance when possible',
-                        'Allow multiple ways to participate (verbal, chat, raised hand)'
+                        'All public sector websites must meet WCAG 2.1 Level AA standards',
+                        'Publish an accessibility statement on every website',
+                        'Provide alternative formats for documents (audio, large print, Easy Read)',
+                        'Ensure procurement includes accessibility requirements',
+                        'Train staff on accessibility best practices',
+                        'Conduct regular audits and user testing with people with disabilities'
                     ],
                     resources: [
-                        { title: 'WCAG Accessibility Guidelines for Presentations', url: '#' },
-                        { title: 'PowerPoint Accessibility Checker Tutorial', url: '#' },
-                        { title: 'Accessible Design Color Palette Generator', url: '#' }
+                        { title: 'NDA - IT Accessibility Standards', url: 'https://www.nda.ie/publications/centre-for-excellence-in-universal-design/it-accessibility' },
+                        { title: 'Gov.ie - Web Accessibility Directive', url: 'https://www.gov.ie/en/publication/4ba9d-web-accessibility-directive/' },
+                        { title: 'Citizens Information - Disability Rights', url: 'https://www.citizensinformation.ie/en/disability/' },
+                        { title: 'AsIAm - Autism-Friendly Resources', url: 'https://asiam.ie' }
                     ],
-                    experts: [
-                        { name: 'Alex Thompson', role: 'Accessibility Consultant', contact: 'athompson@a11y.org' },
-                        { name: 'Priya Desai', role: 'UX Accessibility Specialist', contact: 'pdesai@access.com' }
-                    ]
+                    experts: []
                 },
-                tags: ['accessibility', 'presentations', 'inclusion'],
-                dateAdded: '2024-01-10',
-                isNew: false
+                tags: ['accessibility', 'wcag', 'disability', 'legal compliance'],
+                dateAdded: '2026-02-10',
+                submittedBy: 'Collaborative Group',
+                isNew: true
             },
             {
                 id: 4,
@@ -849,6 +892,126 @@
                 tags: ['neurodiversity', 'hiring', 'accessibility'],
                 dateAdded: '2023-12-28',
                 isNew: false
+            },
+            {
+                id: 9,
+                category: 'policy',
+                title: 'DEI KPIs and Measurement Frameworks',
+                icon: '📊',
+                description: 'Key performance indicators and measurement tools for tracking DEI progress in Irish organisations.',
+                details: {
+                    answer: 'Measuring DEI progress requires clear KPIs aligned with organisational goals. Here are essential metrics and frameworks:',
+                    strategies: [
+                        'Track workforce demographics by level (are underrepresented groups advancing?)',
+                        'Measure pay equity across gender, ethnicity, disability status',
+                        'Monitor recruitment pipeline diversity (application to hire rates)',
+                        'Survey employee inclusion experience regularly',
+                        'Track retention and turnover by demographic group',
+                        'Measure training completion and policy awareness',
+                        'Set targets based on Labour Force Survey data for Ireland'
+                    ],
+                    resources: [
+                        { title: 'Royal Academy of Engineering - Diversity & Inclusion Measurement Toolkit', url: 'https://raeng.org.uk/diversity-in-engineering/diversity-and-inclusion-toolkit' },
+                        { title: 'Irish Human Rights and Equality Commission - Public Sector Duty', url: 'https://www.ihrec.ie/our-work/public-sector-duty/' },
+                        { title: 'Central Statistics Office - Labour Force Survey Data', url: 'https://www.cso.ie/en/releasesandpublications/ep/p-lfs/labourforcesurvey/' },
+                        { title: 'CIPD Ireland - Diversity & Inclusion Resources', url: 'https://www.cipd.ie' }
+                    ],
+                    experts: []
+                },
+                tags: ['measurement', 'KPIs', 'reporting', 'policy'],
+                dateAdded: '2025-02-12',
+                submittedBy: 'Collaborative Group',
+                isNew: true
+            },
+            {
+                id: 10,
+                category: 'policy',
+                title: 'Irish Equality Legislation Overview',
+                icon: '⚖️',
+                description: 'Summary of key Irish equality laws relevant to workplace DEI including Employment Equality Acts.',
+                details: {
+                    answer: 'Irish equality legislation provides comprehensive protections. Key acts all employers must understand:',
+                    strategies: [
+                        'Employment Equality Acts 1998-2015: Prohibits discrimination on 9 grounds',
+                        'Equal Status Acts 2000-2018: Covers access to goods and services',
+                        'Irish Human Rights and Equality Commission Act 2014: Public Sector Equality and Human Rights Duty',
+                        'Gender Pay Gap Information Act 2021: Mandatory reporting for organisations 250+ employees',
+                        'Maternity Protection Acts: Protects pregnant employees and new mothers',
+                        'Paternity Leave and Benefit Act 2016: 2 weeks paid leave',
+                        'Parents Leave and Benefit Act 2019: Additional parental leave rights'
+                    ],
+                    resources: [
+                        { title: 'Workplace Relations Commission - Employment Equality', url: 'https://www.workplacerelations.ie/en/what_you_should_know/equality/' },
+                        { title: 'Irish Human Rights and Equality Commission', url: 'https://www.ihrec.ie' },
+                        { title: 'Citizens Information - Equality in the Workplace', url: 'https://www.citizensinformation.ie/en/employment/equality_in_work/' },
+                        { title: 'Gender Pay Gap Reporting Requirements', url: 'https://www.gov.ie/en/publication/4fa83-gender-pay-gap-information-act-2021/' }
+                    ],
+                    experts: []
+                },
+                tags: ['legislation', 'compliance', 'Irish law', 'policy'],
+                dateAdded: '2025-02-12',
+                submittedBy: 'Collaborative Group',
+                isNew: true
+            },
+            {
+                id: 11,
+                category: 'accessibility',
+                title: 'Irish Sign Language (ISL) in the Workplace',
+                icon: '🤟',
+                description: 'Guidance on accommodating ISL users following the Irish Sign Language Act 2017.',
+                details: {
+                    answer: 'The Irish Sign Language Act 2017 recognises ISL as an official language. Here\'s how to support Deaf colleagues:',
+                    strategies: [
+                        'Provide ISL interpreters for meetings, training, and events',
+                        'Use video relay services for phone communications',
+                        'Ensure visual alerts accompany audio alarms',
+                        'Provide written agendas and materials in advance',
+                        'Make captions available for all video content',
+                        'Train staff on working effectively with interpreters',
+                        'Consult with Deaf employees on their communication preferences'
+                    ],
+                    resources: [
+                        { title: 'Irish Deaf Society', url: 'https://www.irishdeafsociety.ie' },
+                        { title: 'Sign Language Interpreting Service', url: 'https://www.slis.ie' },
+                        { title: 'Citizens Information - Irish Sign Language', url: 'https://www.citizensinformation.ie/en/health/health_services/services_for_people_with_disabilities/irish_sign_language_act_2017.html' },
+                        { title: 'Deaf Hear - Support Services', url: 'https://www.deafhear.ie' }
+                    ],
+                    experts: []
+                },
+                tags: ['accessibility', 'ISL', 'Deaf', 'Irish law'],
+                dateAdded: '2025-02-12',
+                submittedBy: 'Collaborative Group',
+                isNew: true
+            },
+            {
+                id: 12,
+                category: 'workplace',
+                title: 'Traveller Ethnicity Recognition and Inclusion',
+                icon: '🏕️',
+                description: 'Understanding and supporting Irish Traveller colleagues following State recognition of Traveller ethnicity.',
+                details: {
+                    answer: 'Irish Travellers are Ireland\'s indigenous ethnic minority. Following State recognition in 2017, organisations must address specific needs:',
+                    strategies: [
+                        'Include Traveller ethnicity in diversity monitoring',
+                        'Address anti-Traveller discrimination and stereotypes proactively',
+                        'Recognise barriers Travellers face in education and employment',
+                        'Support Traveller-specific employee networks or community partnerships',
+                        'Ensure recruitment practices don\'t inadvertently exclude Travellers',
+                        'Provide cultural awareness training on Traveller history and identity',
+                        'Work with Traveller representative organisations'
+                    ],
+                    resources: [
+                        { title: 'Pavee Point Traveller & Roma Centre', url: 'https://www.paveepoint.ie' },
+                        { title: 'Irish Traveller Movement', url: 'https://itmtrav.ie' },
+                        { title: 'National Traveller & Roma Inclusion Strategy', url: 'https://www.gov.ie/en/publication/c83a7-national-traveller-and-roma-inclusion-strategy-2017-2021/' },
+                        { title: 'IHREC - Traveller Equality and Discrimination', url: 'https://www.ihrec.ie/our-work/traveller-equality/' }
+                    ],
+                    experts: []
+                },
+                tags: ['ethnicity', 'Traveller', 'inclusion', 'Irish context'],
+                dateAdded: '2025-02-12',
+                submittedBy: 'Collaborative Group',
+                isNew: true
             }
         ];
 
