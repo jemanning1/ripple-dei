@@ -678,10 +678,8 @@
                         { title: 'GLEN - Workplace Equality Resources', url: 'https://www.glen.ie' }
                     ],
                     experts: []
-                },
                 tags: ['policy', 'legislation', 'irish resources', 'legal framework'],
-                dateAdded: '2026-02-10',
-                submittedBy: 'Collaborative Group',
+                dateAdded: '2026-02-12',
                 isNew: true
             },
             {
@@ -707,9 +705,7 @@
                     ],
                     experts: []
                 },
-                tags: ['kpis', 'measurement', 'metrics', 'accountability', 'data'],
-                dateAdded: '2026-02-10',
-                submittedBy: 'Collaborative Group',
+                
                 isNew: true
             },
             {
@@ -736,9 +732,7 @@
                     ],
                     experts: []
                 },
-                tags: ['accessibility', 'wcag', 'disability', 'legal compliance'],
-                dateAdded: '2026-02-10',
-                submittedBy: 'Collaborative Group',
+                
                 isNew: true
             },
             {
@@ -763,12 +757,10 @@
                         { title: 'Gender-Neutral Language Database', url: '#' },
                         { title: 'Quick Reference: Common Substitutions', url: '#' }
                     ],
-                    experts: [
-                        { name: 'Taylor Rodriguez', role: 'LGBTQ+ Workplace Advocate', contact: 'trodriguez@pride.org' }
-                    ]
+                    experts: []
+                },
                 },
                 tags: ['language', 'gender', 'communication'],
-                dateAdded: '2024-01-08',
                 isNew: false
             },
             {
@@ -793,13 +785,10 @@
                         { title: 'Psychological Safety Assessment Tool', url: '#' },
                         { title: 'Amy Edmondson\'s Framework for Leaders', url: '#' }
                     ],
-                    experts: [
-                        { name: 'Dr. James Patterson', role: 'Leadership Development Coach', contact: 'jpatterson@leaders.org' },
-                        { name: 'Nina Okonkwo', role: 'Team Dynamics Specialist', contact: 'nokonkwo@teams.com' }
-                    ]
+                    experts: []
+                },
                 },
                 tags: ['leadership', 'psychological safety', 'team culture'],
-                dateAdded: '2024-01-05',
                 isNew: false
             },
             {
@@ -824,12 +813,10 @@
                         { title: 'Case Study: Microsoft ERG Impact Report', url: '#' },
                         { title: 'ERG Leadership Development Program Guide', url: '#' }
                     ],
-                    experts: [
-                        { name: 'Carmen Martinez', role: 'ERG Strategy Consultant', contact: 'cmartinez@ergs.org' }
-                    ]
+                    experts: []
+                },
                 },
                 tags: ['ERGs', 'policy', 'employee engagement'],
-                dateAdded: '2024-01-03',
                 isNew: false
             },
             {
@@ -854,13 +841,10 @@
                         { title: 'Multi-Faith Calendar for HR Planning', url: '#' },
                         { title: 'Religious Accommodation Request Template', url: '#' }
                     ],
-                    experts: [
-                        { name: 'Rabbi David Goldstein', role: 'Interfaith Workplace Consultant', contact: 'dgoldstein@interfaith.org' },
-                        { name: 'Fatima Ahmed', role: 'Religious Inclusion Specialist', contact: 'fahmed@inclusion.com' }
-                    ]
+                    experts: []
+                },
                 },
                 tags: ['religion', 'accommodation', 'legal'],
-                dateAdded: '2024-01-01',
                 isNew: false
             },
             {
@@ -885,12 +869,10 @@
                         { title: 'SAP Autism at Work Program Case Study', url: '#' },
                         { title: 'Interview Accommodations Checklist', url: '#' }
                     ],
-                    experts: [
-                        { name: 'Dr. Maya Patel', role: 'Neurodiversity Consultant', contact: 'mpatel@neuro.org' }
-                    ]
+                    experts: []
+                },
                 },
                 tags: ['neurodiversity', 'hiring', 'accessibility'],
-                dateAdded: '2023-12-28',
                 isNew: false
             },
             {
@@ -918,9 +900,7 @@
                     ],
                     experts: []
                 },
-                tags: ['measurement', 'KPIs', 'reporting', 'policy'],
-                dateAdded: '2025-02-12',
-                submittedBy: 'Collaborative Group',
+                
                 isNew: true
             },
             {
@@ -948,9 +928,7 @@
                     ],
                     experts: []
                 },
-                tags: ['legislation', 'compliance', 'Irish law', 'policy'],
-                dateAdded: '2025-02-12',
-                submittedBy: 'Collaborative Group',
+                
                 isNew: true
             },
             {
@@ -978,9 +956,7 @@
                     ],
                     experts: []
                 },
-                tags: ['accessibility', 'ISL', 'Deaf', 'Irish law'],
-                dateAdded: '2025-02-12',
-                submittedBy: 'Collaborative Group',
+                
                 isNew: true
             },
             {
@@ -1008,9 +984,7 @@
                     ],
                     experts: []
                 },
-                tags: ['ethnicity', 'Traveller', 'inclusion', 'Irish context'],
-                dateAdded: '2025-02-12',
-                submittedBy: 'Collaborative Group',
+                
                 isNew: true
             }
         ];
@@ -1145,6 +1119,10 @@
             `;
 
             modal.style.display = 'block';
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
         }
 
         function closeModal(modalId) {
