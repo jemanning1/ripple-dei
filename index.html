@@ -599,7 +599,7 @@
                     <input type="url" id="submitLink" placeholder="https://...">
                 </div>
                 <div class="form-group">
-                    <label>Your Name/Organization (optional)</label>
+                    <label>Your Name/Organisation (optional)</label>
                     <input type="text" id="submitName" placeholder="How should we credit you?">
                 </div>
                 <button type="submit" class="submit-btn">Submit Resource</button>
@@ -622,7 +622,7 @@
                         'Use the "name it" technique: Calmly state what you observed without accusation ("I noticed that comment...")',
                         'Ask clarifying questions: "What did you mean by that?" gives the person a chance to self-correct',
                         'Address privately when possible for first-time occurrences',
-                        'Document patterns for HR if behavior persists',
+                        'Document patterns for HR if behaviour persists',
                         'Create team norms proactively around respectful communication'
                     ],
                     resources: [
@@ -631,7 +631,7 @@
                         { title: 'Video Workshop: Responding in the Moment', url: '#' }
                     ],
                     experts: [
-                        { name: 'Dr. Sarah Chen', role: 'Organizational Psychologist', contact: 'schen@deiexperts.org' },
+                        { name: 'Dr. Sarah Chen', role: 'Organisational Psychologist', contact: 'schen@deiexperts.org' },
                         { name: 'Marcus Williams', role: 'Workplace Mediation Specialist', contact: 'mwilliams@inclusion.com' }
                     ]
                 },
@@ -741,7 +741,7 @@
                         'Actively solicit dissenting opinions in meetings',
                         'Respond to concerns with curiosity, not defensiveness',
                         'Create structured opportunities for quieter voices to contribute',
-                        'Address exclusionary behavior immediately and privately',
+                        'Address exclusionary behaviour immediately and privately',
                         'Celebrate learning from failures, not just successes',
                         'Conduct regular pulse checks on team psychological safety'
                     ],
@@ -764,9 +764,9 @@
                 category: 'policy',
                 title: 'Employee Resource Group (ERG) best practices',
                 icon: '👥',
-                description: 'Framework for establishing and supporting effective ERGs that drive real organizational change.',
+                description: 'Framework for establishing and supporting effective ERGs that drive real organisational change.',
                 details: {
-                    answer: 'Successful ERGs require organizational support and clear structure:',
+                    answer: 'Successful ERGs require organisational support and clear structure:',
                     strategies: [
                         'Provide dedicated budget and work hours for ERG activities',
                         'Connect ERG leaders directly to executive sponsors',
@@ -854,6 +854,38 @@
 
         let currentCategory = 'all';
         let currentSearch = '';
+
+        // Calculate and update real statistics
+        function updateStats() {
+            // Count total resources
+            const resourceCount = resources.length;
+            
+            // Count unique contributors
+            const contributors = new Set();
+            resources.forEach(r => {
+                if (r.submittedBy) contributors.add(r.submittedBy);
+            });
+            
+            // Count active topics (categories with resources)
+            const topics = new Set();
+            resources.forEach(r => {
+                topics.add(r.category);
+            });
+            
+            // Count total experts
+            let expertCount = 0;
+            resources.forEach(r => {
+                if (r.details && r.details.experts) {
+                    expertCount += r.details.experts.length;
+                }
+            });
+            
+            // Update the display
+            document.getElementById('resourceCount').textContent = resourceCount;
+            document.getElementById('contributorCount').textContent = contributors.size;
+            document.getElementById('topicCount').textContent = topics.size;
+            document.getElementById('expertCount').textContent = expertCount;
+        }
 
         function renderResources() {
             const content = document.getElementById('content');
@@ -1047,33 +1079,9 @@
             }
         });
 
-        // Initial render
+        // Initial render and stats update
+        updateStats();
         renderResources();
-
-        // Animate stats
-        function animateStats() {
-            const stats = [
-                { id: 'resourceCount', target: 247, suffix: '' },
-                { id: 'contributorCount', target: 1423, suffix: '' },
-                { id: 'topicCount', target: 28, suffix: '' },
-                { id: 'expertCount', target: 56, suffix: '' }
-            ];
-
-            stats.forEach(stat => {
-                let current = 0;
-                const increment = Math.ceil(stat.target / 50);
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= stat.target) {
-                        current = stat.target;
-                        clearInterval(timer);
-                    }
-                    document.getElementById(stat.id).textContent = current + stat.suffix;
-                }, 30);
-            });
-        }
-
-        animateStats();
     </script>
 </body>
 </html>
