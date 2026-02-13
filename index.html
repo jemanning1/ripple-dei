@@ -456,7 +456,7 @@
         .stat-number {
             font-size: 24px;
             font-weight: 700;
-            color: #667eea;
+            color: #5563d1;
             display: block;
         }
 
@@ -520,10 +520,6 @@
             <div class="stat-number" id="topicCount">28</div>
             <div class="stat-label">Topics</div>
         </div>
-        <div class="stat-box">
-            <div class="stat-number" id="expertCount">56</div>
-            <div class="stat-label">Experts</div>
-        </div>
     </div>
 
     <div class="search-container">
@@ -567,7 +563,7 @@
                 <button class="close-btn" id="closeSubmit">&times;</button>
             </div>
             <p style="color: #666; margin-bottom: 20px;">
-                Share a resource or ask a question to help build our collaborative DEI knowledge base. Submissions are reviewed by the group and typically appear within 1-2 weeks.
+                Share a resource or ask a question to help build our collaborative DEI knowledge base. Questions will be answered by the group and both questions and resources are reviewed before appearing on the platform (typically within 1-2 weeks).
             </p>
             <div class="success-message" id="successMessage">
                 ✅ Thank you. Your contribution has been submitted for review.
@@ -587,7 +583,6 @@
                         <option value="">Select type...</option>
                         <option value="article">Article / Guide</option>
                         <option value="tool">Tool / Template</option>
-                        <option value="expert">Expert Contact</option>
                         <option value="policy">Policy Example</option>
                         <option value="training">Training Resource</option>
                     </select>
@@ -602,6 +597,7 @@
                         <option value="accessibility">Accessibility</option>
                         <option value="language">Inclusive Language</option>
                         <option value="policy">Policy & Legal</option>
+                        <option value="other">Other</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -650,18 +646,21 @@
                 <p><strong>📚 Browse Resources</strong><br>
                 Search or filter by category to find guidance on workplace DEI topics, from pronouns to accessibility to hiring practices.</p>
                 
-                <p><strong>🤝 Contribute Knowledge</strong><br>
-                Share your organisation's DEI resources, policies, or lessons learned by clicking the + button. Submissions are reviewed by the collaborative group.</p>
+                <p><strong>❓ Ask Questions</strong><br>
+                Have a DEI question? Ask the community! Click the + button and select "Ask a Question". The collaborative group will review and answer, then add the best responses as permanent resources.</p>
+                
+                <p><strong>🤝 Share Resources</strong><br>
+                Have a guide, policy, or lesson learned? Share it with the + button. Select "Share a Resource" to contribute your organisation's knowledge.</p>
                 
                 <p><strong><svg width="20" height="20" viewBox="0 0 50 50" style="display: inline-block; vertical-align: middle; margin-right: 5px;">
                     <circle cx="25" cy="25" r="5" fill="none" stroke="#667eea" stroke-width="2"/>
                     <circle cx="25" cy="25" r="11" fill="none" stroke="#667eea" stroke-width="1.5" opacity="0.7"/>
                     <circle cx="25" cy="25" r="17" fill="none" stroke="#667eea" stroke-width="1" opacity="0.5"/>
                 </svg> Create Ripples</strong><br>
-                When you contribute a resource, it helps colleagues across multiple organisations - creating ripples of positive change throughout the Irish public sector.</p>
+                When you ask a question or share a resource, it helps colleagues across multiple organisations - creating ripples of positive change throughout the Irish public sector.</p>
 
                 <h3 style="color: #667eea; margin-top: 20px;">What Happens When I Submit?</h3>
-                <p>Submissions go to the collaborative group for review. Approved resources typically appear on the site within 1-2 weeks. You'll be credited for your contribution (or can remain anonymous if you prefer).</p>
+                <p>Questions and resources go to the collaborative group for review. Questions get answered and the best responses become resources. Approved content typically appears on the site within 1-2 weeks. You'll be credited for your contribution (or can remain anonymous if you prefer).</p>
 
                 <h3 style="color: #667eea; margin-top: 20px;">Who's Behind This?</h3>
                 <p>Ripple is a collaborative project of the Irish Public Service and Semi-State Collaboration Group - DEI practitioners working together to share knowledge and best practices across organisations.</p>
@@ -697,9 +696,10 @@
                     resources: [
                         { title: 'IHREC - Equality and Human Rights Resources', url: 'https://www.ihrec.ie' },
                         { title: 'Citizens Information - Employment Equality', url: 'https://www.citizensinformation.ie/en/employment/equality_in_work/' },
-                        { title: 'WRC - Equality Information', url: 'https://www.workplacerelations.ie/en/what_you_should_know/equality/' },
+                        { title: 'WRC - Equality Information', url: 'https://www.workplacerelations.ie/en/' },
                         { title: 'National Disability Authority - Universal Design', url: 'https://www.nda.ie' },
-                        { title: 'GLEN - Workplace Equality Resources', url: 'https://www.glen.ie' }
+                        { title: 'GLEN - Workplace Equality Resources', url: 'https://www.glen.ie/learn/' },
+                        { title: 'Irish Council for Civil Liberties (ICCL)', url: 'https://www.iccl.ie' }
                     ],
                     experts: []
                 },
@@ -724,9 +724,9 @@
                         'Review and adjust KPIs annually based on what\'s working'
                     ],
                     resources: [
-                        { title: 'Royal Academy of Engineering - Inclusion Toolkit', url: 'https://www.raeng.org.uk/diversity-and-inclusion/inclusion-toolkit' },
+                        { title: 'Royal Academy of Engineering - Inclusion Toolkit', url: 'https://www.raeng.org.uk/diversity-and-inclusion' },
                         { title: 'IHREC - Public Sector Equality and Human Rights Duty Guidance', url: 'https://www.ihrec.ie/our-work/public-sector-duty/' },
-                        { title: 'Investors in Diversity - Irish DEI Accreditation', url: 'https://www.nsai.ie/certification/diversity-inclusion/' }
+                        { title: 'Investors in Diversity - Irish DEI Accreditation', url: 'https://www.nsai.ie/' }
                     ],
                     experts: []
                 },
@@ -751,9 +751,9 @@
                         'Conduct regular audits and user testing with people with disabilities'
                     ],
                     resources: [
-                        { title: 'NDA - IT Accessibility Standards', url: 'https://www.nda.ie/publications/centre-for-excellence-in-universal-design/it-accessibility' },
-                        { title: 'Gov.ie - Web Accessibility Directive', url: 'https://www.gov.ie/en/publication/4ba9d-web-accessibility-directive/' },
-                        { title: 'Citizens Information - Disability Rights', url: 'https://www.citizensinformation.ie/en/disability/' },
+                        { title: 'NDA - IT Accessibility Standards', url: 'https://www.nda.ie/publications/' },
+                        { title: 'Gov.ie - Web Accessibility Directive', url: 'https://www.gov.ie/en/campaigns/48b6c-website-accessibility/' },
+                        { title: 'Citizens Information - Disability Rights', url: 'https://www.citizensinformation.ie/en/health/health_services/disability_and_health_services/' },
                         { title: 'AsIAm - Autism-Friendly Resources', url: 'https://asiam.ie' }
                     ],
                     experts: []
@@ -780,7 +780,7 @@
                         'Use job titles without gender markers (server, not waitress)'
                     ],
                     resources: [
-                        { title: 'GLEN - LGBTQ+ Inclusive Language Guide', url: 'https://www.glen.ie' },
+                        { title: 'GLEN - LGBTQ+ Inclusive Language Guide', url: 'https://www.glen.ie/learn/' },
                         { title: 'IHREC - Gender Equality Resources', url: 'https://www.ihrec.ie' }
                     ],
                     experts: []
@@ -808,7 +808,7 @@
                     ],
                     resources: [
                         { title: 'CIPD Ireland - Building Inclusive Cultures', url: 'https://www.cipd.ie' },
-                        { title: 'WorkPlace Relations Commission - Bullying and Harassment', url: 'https://www.workplacerelations.ie/en/what_you_should_know/equality/' }
+                        { title: 'WorkPlace Relations Commission - Bullying and Harassment', url: 'https://www.workplacerelations.ie/en/' }
                     ],
                     experts: []
                 },
@@ -915,7 +915,7 @@
                         'Set targets based on Labour Force Survey data for Ireland'
                     ],
                     resources: [
-                        { title: 'Royal Academy of Engineering - Diversity & Inclusion Measurement Toolkit', url: 'https://www.raeng.org.uk/diversity-and-inclusion/inclusion-toolkit' },
+                        { title: 'Royal Academy of Engineering - Diversity & Inclusion Measurement Toolkit', url: 'https://www.raeng.org.uk/diversity-and-inclusion' },
                         { title: 'Irish Human Rights and Equality Commission - Public Sector Duty', url: 'https://www.ihrec.ie/our-work/public-sector-duty/' },
                         { title: 'Central Statistics Office - Labour Force Survey Data', url: 'https://www.cso.ie/en/releasesandpublications/ep/p-lfs/labourforcesurvey/' },
                         { title: 'CIPD Ireland - Diversity & Inclusion Resources', url: 'https://www.cipd.ie' }
@@ -944,7 +944,7 @@
                         'Parents Leave and Benefit Act 2019: Additional parental leave rights'
                     ],
                     resources: [
-                        { title: 'Workplace Relations Commission - Employment Equality', url: 'https://www.workplacerelations.ie/en/what_you_should_know/equality/' },
+                        { title: 'Workplace Relations Commission - Employment Equality', url: 'https://www.workplacerelations.ie/en/' },
                         { title: 'Irish Human Rights and Equality Commission', url: 'https://www.ihrec.ie' },
                         { title: 'Citizens Information - Equality in the Workplace', url: 'https://www.citizensinformation.ie/en/employment/equality_in_work/' },
                         { title: 'Gender Pay Gap Reporting Requirements', url: 'https://www.gov.ie/en/publication/4fa83-gender-pay-gap-information-act-2021/' }
@@ -1035,19 +1035,10 @@
                 topics.add(r.category);
             });
             
-            // Count total experts
-            let expertCount = 0;
-            resources.forEach(r => {
-                if (r.details && r.details.experts) {
-                    expertCount += r.details.experts.length;
-                }
-            });
-            
             // Update the display
             document.getElementById('resourceCount').textContent = resourceCount;
             document.getElementById('contributorCount').textContent = contributors.size;
             document.getElementById('topicCount').textContent = topics.size;
-            document.getElementById('expertCount').textContent = expertCount;
         }
 
         function renderResources() {
