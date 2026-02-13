@@ -439,23 +439,33 @@
             margin-bottom: 20px;
         }
 
+        .stats-container {
+            padding: 10px 20px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
         .stat-box {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 15px;
-            border-radius: 15px;
             text-align: center;
+            padding: 0;
+            background: none;
         }
 
         .stat-number {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             color: #667eea;
+            display: block;
         }
 
         .stat-label {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
         }
 
         .empty-state {
@@ -488,7 +498,7 @@
                 <h1 style="position: relative; z-index: 1; margin: 0;">Ripple</h1>
             </div>
         </div>
-        <p class="tagline">DEI Knowledge Hub for the Irish Public Service and Semi-State Collaboration Group</p>
+        <p class="tagline">Irish Public Service and Semi-State Collaboration Group</p>
         <button onclick="openModal('aboutModal')" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.9); border: 2px solid #667eea; color: #667eea; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">?</button>
         <div class="ripple-effect">
             <div class="ripple-circle"></div>
@@ -497,7 +507,7 @@
         </div>
     </div>
 
-    <div class="stats-container" style="padding: 20px 20px 0;">
+    <div class="stats-container">
         <div class="stat-box">
             <div class="stat-number" id="resourceCount">247</div>
             <div class="stat-label">Resources</div>
@@ -553,21 +563,28 @@
     <div class="modal" id="submitModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Contribute a Resource</h2>
+                <h2 class="modal-title">Contribute to Ripple</h2>
                 <button class="close-btn" id="closeSubmit">&times;</button>
             </div>
             <p style="color: #666; margin-bottom: 20px;">
-                Share your knowledge and expertise to support DEI across the public sector. Submissions are reviewed by the collaborative group and approved resources typically appear within 1-2 weeks.
+                Share a resource or ask a question to help build our collaborative DEI knowledge base. Submissions are reviewed by the group and typically appear within 1-2 weeks.
             </p>
             <div class="success-message" id="successMessage">
                 ✅ Thank you. Your contribution has been submitted for review.
             </div>
             <form id="submitForm">
                 <div class="form-group">
+                    <label>What would you like to do?</label>
+                    <select id="submissionType" required>
+                        <option value="">Select...</option>
+                        <option value="question">Ask a Question</option>
+                        <option value="resource">Share a Resource</option>
+                    </select>
+                </div>
+                <div class="form-group" id="resourceTypeGroup" style="display: none;">
                     <label>Resource Type</label>
-                    <select id="resourceType" required>
+                    <select id="resourceType">
                         <option value="">Select type...</option>
-                        <option value="question">Q&A / Common Question</option>
                         <option value="article">Article / Guide</option>
                         <option value="tool">Tool / Template</option>
                         <option value="expert">Expert Contact</option>
@@ -588,14 +605,14 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Title</label>
+                    <label id="titleLabel">Title</label>
                     <input type="text" id="submitTitle" required placeholder="Brief, descriptive title">
                 </div>
                 <div class="form-group">
-                    <label>Description</label>
-                    <textarea id="submitDescription" required placeholder="Detailed explanation or answer..."></textarea>
+                    <label id="descriptionLabel">Description</label>
+                    <textarea id="submitDescription" required placeholder="Detailed explanation..."></textarea>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="linkGroup">
                     <label>Source/Link (optional)</label>
                     <input type="url" id="submitLink" placeholder="https://...">
                 </div>
@@ -636,7 +653,11 @@
                 <p><strong>🤝 Contribute Knowledge</strong><br>
                 Share your organisation's DEI resources, policies, or lessons learned by clicking the + button. Submissions are reviewed by the collaborative group.</p>
                 
-                <p><strong>🌊 Create Ripples</strong><br>
+                <p><strong><svg width="20" height="20" viewBox="0 0 50 50" style="display: inline-block; vertical-align: middle; margin-right: 5px;">
+                    <circle cx="25" cy="25" r="5" fill="none" stroke="#667eea" stroke-width="2"/>
+                    <circle cx="25" cy="25" r="11" fill="none" stroke="#667eea" stroke-width="1.5" opacity="0.7"/>
+                    <circle cx="25" cy="25" r="17" fill="none" stroke="#667eea" stroke-width="1" opacity="0.5"/>
+                </svg> Create Ripples</strong><br>
                 When you contribute a resource, it helps colleagues across multiple organisations - creating ripples of positive change throughout the Irish public sector.</p>
 
                 <h3 style="color: #667eea; margin-top: 20px;">What Happens When I Submit?</h3>
@@ -644,6 +665,9 @@
 
                 <h3 style="color: #667eea; margin-top: 20px;">Who's Behind This?</h3>
                 <p>Ripple is a collaborative project of the Irish Public Service and Semi-State Collaboration Group - DEI practitioners working together to share knowledge and best practices across organisations.</p>
+
+                <h3 style="color: #667eea; margin-top: 20px; font-size: 16px;">Disclaimer</h3>
+                <p style="font-size: 13px; color: #666;">Ripple provides general DEI guidance and resources for informational purposes only. Content does not constitute legal, HR, or professional advice. We do not control or endorse external websites linked from this platform. While resources are reviewed by the collaborative group, we cannot guarantee completeness or accuracy. Always consult qualified professionals for specific situations and verify information for your organisational context.</p>
 
                 <p style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #666;">
                 Created by Jacqueline Manning • Licensed under CC BY-NC-SA 4.0 for non-commercial use
@@ -756,9 +780,8 @@
                         'Use job titles without gender markers (server, not waitress)'
                     ],
                     resources: [
-                        { title: 'Inclusive Language Style Guide - Microsoft', url: '#' },
-                        { title: 'Gender-Neutral Language Database', url: '#' },
-                        { title: 'Quick Reference: Common Substitutions', url: '#' }
+                        { title: 'GLEN - LGBTQ+ Inclusive Language Guide', url: 'https://www.glen.ie' },
+                        { title: 'IHREC - Gender Equality Resources', url: 'https://www.ihrec.ie' }
                     ],
                     experts: []
                 },
@@ -784,9 +807,8 @@
                         'Conduct regular pulse checks on team psychological safety'
                     ],
                     resources: [
-                        { title: 'Google\'s Project Aristotle Research on Team Effectiveness', url: '#' },
-                        { title: 'Psychological Safety Assessment Tool', url: '#' },
-                        { title: 'Amy Edmondson\'s Framework for Leaders', url: '#' }
+                        { title: 'CIPD Ireland - Building Inclusive Cultures', url: 'https://www.cipd.ie' },
+                        { title: 'WorkPlace Relations Commission - Bullying and Harassment', url: 'https://www.workplacerelations.ie/en/what_you_should_know/equality/' }
                     ],
                     experts: []
                 },
@@ -812,9 +834,8 @@
                         'Ensure ERG membership doesn\'t limit career advancement'
                     ],
                     resources: [
-                        { title: 'ERG Governance Framework Template', url: '#' },
-                        { title: 'Case Study: Microsoft ERG Impact Report', url: '#' },
-                        { title: 'ERG Leadership Development Program Guide', url: '#' }
+                        { title: 'IHREC - Positive Action and Employee Networks', url: 'https://www.ihrec.ie' },
+                        { title: 'CIPD Ireland - Employee Voice and Engagement', url: 'https://www.cipd.ie' }
                     ],
                     experts: []
                 },
@@ -840,9 +861,8 @@
                         'Create a clear accommodation request process'
                     ],
                     resources: [
-                        { title: 'EEOC Religious Discrimination Guidelines', url: '#' },
-                        { title: 'Multi-Faith Calendar for HR Planning', url: '#' },
-                        { title: 'Religious Accommodation Request Template', url: '#' }
+                        { title: 'IHREC - Religion and Belief Equality', url: 'https://www.ihrec.ie' },
+                        { title: 'Citizens Information - Religious Discrimination', url: 'https://www.citizensinformation.ie/en/employment/equality_in_work/' }
                     ],
                     experts: []
                 },
@@ -868,9 +888,8 @@
                         'Consider asynchronous interviews for written responses'
                     ],
                     resources: [
-                        { title: 'Neurodiversity @ Work Employer Guide', url: '#' },
-                        { title: 'SAP Autism at Work Program Case Study', url: '#' },
-                        { title: 'Interview Accommodations Checklist', url: '#' }
+                        { title: 'AsIAm - Autism-Friendly Employers', url: 'https://asiam.ie' },
+                        { title: 'NDA - Inclusive Recruitment Guidance', url: 'https://www.nda.ie' }
                     ],
                     experts: []
                 },
@@ -896,7 +915,7 @@
                         'Set targets based on Labour Force Survey data for Ireland'
                     ],
                     resources: [
-                        { title: 'Royal Academy of Engineering - Diversity & Inclusion Measurement Toolkit', url: 'https://raeng.org.uk/diversity-in-engineering/diversity-and-inclusion-toolkit' },
+                        { title: 'Royal Academy of Engineering - Diversity & Inclusion Measurement Toolkit', url: 'https://www.raeng.org.uk/diversity-and-inclusion/inclusion-toolkit' },
                         { title: 'Irish Human Rights and Equality Commission - Public Sector Duty', url: 'https://www.ihrec.ie/our-work/public-sector-duty/' },
                         { title: 'Central Statistics Office - Labour Force Survey Data', url: 'https://www.cso.ie/en/releasesandpublications/ep/p-lfs/labourforcesurvey/' },
                         { title: 'CIPD Ireland - Diversity & Inclusion Resources', url: 'https://www.cipd.ie' }
@@ -1160,6 +1179,32 @@
             document.getElementById('submitModal').style.display = 'block';
         });
 
+        // Handle submission type change (Question vs Resource)
+        document.getElementById('submissionType').addEventListener('change', (e) => {
+            const isQuestion = e.target.value === 'question';
+            const isResource = e.target.value === 'resource';
+            
+            // Show/hide resource type
+            document.getElementById('resourceTypeGroup').style.display = isResource ? 'block' : 'none';
+            
+            // Update labels and placeholders
+            if (isQuestion) {
+                document.getElementById('titleLabel').textContent = 'Your Question';
+                document.getElementById('submitTitle').placeholder = 'e.g., How do I handle pronouns in email signatures?';
+                document.getElementById('descriptionLabel').textContent = 'Additional Context (optional)';
+                document.getElementById('submitDescription').placeholder = 'Provide any relevant details or context...';
+                document.getElementById('submitDescription').required = false;
+                document.getElementById('linkGroup').style.display = 'none';
+            } else if (isResource) {
+                document.getElementById('titleLabel').textContent = 'Resource Title';
+                document.getElementById('submitTitle').placeholder = 'Brief, descriptive title';
+                document.getElementById('descriptionLabel').textContent = 'Description';
+                document.getElementById('submitDescription').placeholder = 'Detailed explanation or answer...';
+                document.getElementById('submitDescription').required = true;
+                document.getElementById('linkGroup').style.display = 'block';
+            }
+        });
+
         document.getElementById('closeSubmit').addEventListener('click', () => {
             closeModal('submitModal');
         });
@@ -1185,7 +1230,8 @@
                 
                 // Add form fields
                 const fields = {
-                    resourceType: document.getElementById('resourceType').value,
+                    submissionType: document.getElementById('submissionType').value,
+                    resourceType: document.getElementById('resourceType').value || 'N/A',
                     category: document.getElementById('submitCategory').value,
                     title: document.getElementById('submitTitle').value,
                     description: document.getElementById('submitDescription').value,
