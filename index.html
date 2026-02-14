@@ -37,10 +37,6 @@
             margin-bottom: 12px;
         }
 
-        .ripple-icon {
-            font-size: 32px;
-        }
-
         .header h1 {
             color: #667eea;
             font-size: 32px;
@@ -48,7 +44,7 @@
             letter-spacing: -0.5px;
         }
 
-        /* 3D Ripple background graphic */
+        /* Animated Ripple background graphic */
         body::before {
             content: '';
             position: fixed;
@@ -67,6 +63,12 @@
             z-index: 0;
             pointer-events: none;
             opacity: 0.6;
+            animation: pulseRipple 8s ease-in-out infinite;
+        }
+
+        @keyframes pulseRipple {
+            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.05); }
         }
 
         .header .tagline {
@@ -74,10 +76,6 @@
             font-size: 14px;
             font-style: italic;
             text-align: center;
-        }
-
-        .ripple-effect {
-            display: none;
         }
 
         .search-container {
@@ -96,11 +94,13 @@
             font-size: 18px;
             position: relative;
             z-index: 11;
+            transition: box-shadow 0.3s, transform 0.2s;
         }
 
         .search-box:focus {
             outline: none;
             box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+            transform: translateY(-1px);
         }
 
         .category-tabs {
@@ -116,15 +116,6 @@
             display: none;
         }
 
-        /* Add padding to first and last tabs so they're not cut off */
-        .category-tabs .tab:first-child {
-            margin-left: 0;
-        }
-
-        .category-tabs .tab:last-child {
-            margin-right: 20px;
-        }
-
         .tab {
             background: rgba(255, 255, 255, 0.95);
             border: 2px solid rgba(102, 126, 234, 0.3);
@@ -136,7 +127,6 @@
             transition: all 0.3s;
             font-weight: 600;
             position: relative;
-            overflow: visible;
             color: #667eea;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             min-height: 56px;
@@ -154,8 +144,32 @@
             transform: scale(1.05);
         }
 
+        /* Category colors */
+        .tab[data-category="workplace"].active { background: #667eea; border-color: #667eea; }
+        .tab[data-category="hiring"].active { background: #00b894; border-color: #00b894; }
+        .tab[data-category="leadership"].active { background: #fd79a8; border-color: #fd79a8; }
+        .tab[data-category="accessibility"].active { background: #fdcb6e; border-color: #fdcb6e; color: #333; }
+        .tab[data-category="language"].active { background: #6c5ce7; border-color: #6c5ce7; }
+        .tab[data-category="policy"].active { background: #e17055; border-color: #e17055; }
+        .tab[data-category="favorites"].active { background: #d63031; border-color: #d63031; }
+
         .content {
             padding: 0 20px;
+        }
+
+        /* Section Headers */
+        .section-header {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 20px 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header .icon {
+            font-size: 24px;
         }
 
         .card {
@@ -180,6 +194,13 @@
             height: 100%;
             background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
         }
+
+        /* Category-specific card accents */
+        .card[data-category="hiring"]::before { background: linear-gradient(180deg, #00b894 0%, #00a383 100%); }
+        .card[data-category="leadership"]::before { background: linear-gradient(180deg, #fd79a8 0%, #fc5c9c 100%); }
+        .card[data-category="accessibility"]::before { background: linear-gradient(180deg, #fdcb6e 0%, #fbb731 100%); }
+        .card[data-category="language"]::before { background: linear-gradient(180deg, #6c5ce7 0%, #5f3dc4 100%); }
+        .card[data-category="policy"]::before { background: linear-gradient(180deg, #e17055 0%, #d63031 100%); }
 
         .card:hover {
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
@@ -222,6 +243,7 @@
             gap: 10px;
             flex-wrap: wrap;
             margin-top: 10px;
+            align-items: center;
         }
 
         .tag {
@@ -236,6 +258,30 @@
             background: #e8eaf6;
             color: #667eea;
             font-weight: 600;
+        }
+
+        .favorite-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            margin-left: auto;
+            transition: transform 0.2s;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .favorite-btn.active {
+            animation: heartBeat 0.3s ease-in-out;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(1.1); }
         }
 
         .floating-action {
@@ -262,6 +308,10 @@
 
         .floating-action:active {
             transform: scale(0.95);
+        }
+
+        .floating-action:hover {
+            transform: scale(1.05);
         }
 
         .modal {
@@ -309,6 +359,31 @@
             font-size: 22px;
             font-weight: 600;
             color: #333;
+            flex: 1;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #667eea;
+            padding: 5px;
+            transition: transform 0.2s;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .icon-btn:active {
+            transform: scale(0.95);
         }
 
         .close-btn {
@@ -353,6 +428,11 @@
             text-decoration: none;
             color: #667eea;
             font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .resource-link:hover {
+            background: #e9ecef;
         }
 
         .contact-card {
@@ -371,6 +451,40 @@
         .contact-info {
             color: #666;
             font-size: 14px;
+        }
+
+        .stats-container {
+            padding: 10px 20px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 20px 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            min-width: 140px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #333;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
         }
 
         .form-group {
@@ -403,17 +517,17 @@
         }
 
         .form-group textarea {
-            min-height: 100px;
+            min-height: 120px;
             resize: vertical;
         }
 
         .submit-btn {
             width: 100%;
-            padding: 15px;
+            padding: 16px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -432,42 +546,6 @@
             display: none;
         }
 
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .stats-container {
-            padding: 10px 20px 20px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .stat-box {
-            text-align: center;
-            padding: 0;
-            background: none;
-        }
-
-        .stat-number {
-            font-size: 24px;
-            font-weight: 700;
-            color: #5563d1;
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 11px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 2px;
-        }
-
         .empty-state {
             text-align: center;
             padding: 40px 20px;
@@ -482,6 +560,75 @@
         .empty-state-text {
             font-size: 18px;
             opacity: 0.9;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 14px;
+            z-index: 3000;
+            display: none;
+            animation: toastIn 0.3s ease-out;
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* Related Resources */
+        .related-resources {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .related-resource-item {
+            background: white;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid #667eea;
+        }
+
+        .related-resource-item:hover {
+            background: #f0f0f0;
+            transform: translateX(5px);
+        }
+
+        .related-resource-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .modal-content {
+                bottom: auto;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                max-width: 600px;
+                max-height: 85vh;
+                border-radius: 20px;
+                animation: scaleIn 0.3s;
+            }
+
+            @keyframes scaleIn {
+                from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+                to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            }
         }
     </style>
 </head>
@@ -500,24 +647,19 @@
         </div>
         <p class="tagline">A DEI Knowledge Hub for the Irish Public Service and Semi-State DEI Collaboration Group</p>
         <button onclick="openModal('aboutModal')" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.9); border: 2px solid #667eea; color: #667eea; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">?</button>
-        <div class="ripple-effect">
-            <div class="ripple-circle"></div>
-            <div class="ripple-circle"></div>
-            <div class="ripple-circle"></div>
-        </div>
     </div>
 
     <div class="stats-container">
         <div class="stat-box">
-            <div class="stat-number" id="resourceCount">247</div>
+            <div class="stat-number" id="resourceCount">12</div>
             <div class="stat-label">Resources</div>
         </div>
         <div class="stat-box">
-            <div class="stat-number" id="contributorCount">1,423</div>
+            <div class="stat-number" id="contributorCount">8</div>
             <div class="stat-label">Contributors</div>
         </div>
         <div class="stat-box">
-            <div class="stat-number" id="topicCount">28</div>
+            <div class="stat-number" id="topicCount">6</div>
             <div class="stat-label">Topics</div>
         </div>
     </div>
@@ -534,6 +676,7 @@
         <button class="tab" data-category="accessibility">Accessibility</button>
         <button class="tab" data-category="language">Inclusive Language</button>
         <button class="tab" data-category="policy">Policy & Legal</button>
+        <button class="tab" data-category="favorites">❤️ My Favorites</button>
     </div>
 
     <div class="content" id="content">
@@ -542,10 +685,13 @@
 
     <button class="floating-action" id="addButton" title="Create a Ripple">+</button>
 
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
     <!-- Footer -->
-    <div style="text-align: center; padding: 40px 20px 30px; color: #999; font-size: 14px; border-top: 1px solid #eee; margin-top: 40px;">
+    <div style="text-align: center; padding: 40px 20px 30px; color: rgba(255,255,255,0.9); font-size: 14px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px;">
         <p style="margin: 0 0 8px 0; font-style: italic;">Ripple is a collaborative DEI knowledge hub developed by and for the Irish Public Service and Semi-State DEI Collaboration Group.</p>
-        <p style="margin: 0; font-size: 12px;">© 2026 Jacqueline Manning. Licensed under CC BY-NC-SA 4.0 for non-commercial use.</p>
+        <p style="margin: 0; font-size: 12px; opacity: 0.8;">© 2026 Jacqueline Manning. Licensed under CC BY-NC-SA 4.0 for non-commercial use.</p>
     </div>
 
     <!-- Detail Modal -->
@@ -646,18 +792,17 @@
                 <p><strong>📚 Browse Resources</strong><br>
                 Search or filter by category to find guidance on workplace DEI topics, from pronouns to accessibility to hiring practices.</p>
                 
+                <p><strong>❤️ Save Favorites</strong><br>
+                Click the heart icon on any resource to save it to your favorites for quick access later.</p>
+                
                 <p><strong>❓ Ask Questions</strong><br>
                 Have a DEI question? Ask the community! Click the + button and select "Ask a Question". The collaborative group will review and answer, then add the best responses as permanent resources.</p>
                 
                 <p><strong>🤝 Share Resources</strong><br>
                 Have a guide, policy, or lesson learned? Share it with the + button. Select "Share a Resource" to contribute your organisation's knowledge.</p>
                 
-                <p><strong><svg width="20" height="20" viewBox="0 0 50 50" style="display: inline-block; vertical-align: middle; margin-right: 5px;">
-                    <circle cx="25" cy="25" r="5" fill="none" stroke="#667eea" stroke-width="2"/>
-                    <circle cx="25" cy="25" r="11" fill="none" stroke="#667eea" stroke-width="1.5" opacity="0.7"/>
-                    <circle cx="25" cy="25" r="17" fill="none" stroke="#667eea" stroke-width="1" opacity="0.5"/>
-                </svg> Create Ripples</strong><br>
-                When you ask a question or share a resource, it helps colleagues across multiple organisations - creating ripples of positive change throughout the Irish public sector.</p>
+                <p><strong>🔗 Share with Colleagues</strong><br>
+                Use the share button in resource details to copy a link and share specific resources with your team.</p>
 
                 <h3 style="color: #667eea; margin-top: 20px;">What Happens When I Submit?</h3>
                 <p>Questions and resources go to the collaborative group for review. Questions get answered and the best responses become resources. Approved content typically appears on the site within 1-2 weeks. You'll be credited for your contribution (or can remain anonymous if you prefer).</p>
@@ -676,7 +821,7 @@
     </div>
 
     <script>
-        // Sample data structure
+        // Sample data structure - Your actual resources would go here
         const resources = [
             {
                 id: 1,
@@ -698,231 +843,230 @@
                         { title: 'Citizens Information - Employment Equality', url: 'https://www.citizensinformation.ie/en/employment/equality_in_work/' },
                         { title: 'WRC - Equality Information', url: 'https://www.workplacerelations.ie/en/' },
                         { title: 'National Disability Authority - Universal Design', url: 'https://www.nda.ie' },
-                        { title: 'Irish Council for Civil Liberties (ICCL)', url: 'https://www.iccl.ie' }
+                        { title: 'ICCL - Rights and Equality', url: 'https://www.iccl.ie' }
                     ],
                     experts: []
                 },
-                tags: ['policy', 'legislation', 'irish resources', 'legal framework'],
-                dateAdded: '2026-02-12',
-                isNew: true
+                tags: ['legislation', 'Irish law', 'resources', 'IHREC'],
+                dateAdded: '2026-01-15',
+                isNew: false
             },
             {
                 id: 2,
-                category: 'leadership',
-                title: 'Measuring DEI Impact: KPIs and Metrics Toolkit',
-                icon: '📊',
-                description: 'Framework for setting DEI objectives and measuring progress with meaningful KPIs.',
+                category: 'language',
+                title: 'Using pronouns in the workplace',
+                icon: '💬',
+                description: 'Best practices for using and respecting pronouns in professional settings.',
                 details: {
-                    answer: 'Effective DEI programmes require clear measurement. The Royal Academy of Engineering provides a comprehensive toolkit for measuring inclusion in organisations:',
+                    answer: 'Respecting pronouns is a fundamental aspect of workplace inclusion. Here\'s how to do it right:',
                     strategies: [
-                        'Set baseline metrics across recruitment, retention, progression, and engagement',
-                        'Track both quantitative data (demographics, pay gaps) and qualitative feedback (surveys, focus groups)',
-                        'Use the Engineering Inclusion Framework to assess current state and identify gaps',
-                        'Monitor intersectionality - don\'t just track single characteristics',
-                        'Report transparently to build accountability and trust',
-                        'Review and adjust KPIs annually based on what\'s working'
+                        'Add your pronouns to email signatures and name badges to normalize the practice',
+                        'Never assume someone\'s pronouns based on their appearance or name',
+                        'If you make a mistake, apologize briefly and move on - don\'t make it about you',
+                        'Practice using they/them pronouns for people whose pronouns you don\'t know',
+                        'Make sharing pronouns optional, not mandatory - some people may not feel safe sharing',
+                        'Include pronoun options in HR systems and forms'
                     ],
                     resources: [
-                        { title: 'Royal Academy of Engineering - Measuring Progress', url: 'https://www.raeng.org.uk/policy-and-resources/equity-diversity-and-inclusion-research-and-resources/measuring-progress/' },
-                        { title: 'IHREC - Public Sector Equality and Human Rights Duty Guidance', url: 'https://www.ihrec.ie/our-work/public-sector-duty/' },
-                        { title: 'ICFD - D&I Accreditation', url: 'https://www.icfd.ie/accreditation/' }
+                        { title: 'TENI - Trans Equality in the Workplace', url: 'https://www.teni.ie' }
                     ],
                     experts: []
                 },
-                tags: ['kpis', 'measurement', 'metrics', 'accountability', 'data'],
-                dateAdded: '2026-02-12',
-                isNew: true
+                tags: ['pronouns', 'LGBTQ+', 'communication', 'inclusion'],
+                dateAdded: '2026-01-20',
+                isNew: false
             },
             {
                 id: 3,
-                category: 'accessibility',
-                title: 'Web Accessibility Requirements for Irish Public Sector',
-                icon: '♿',
-                description: 'Legal requirements and practical guidance for making websites and digital services accessible under Irish and EU law.',
+                category: 'workplace',
+                title: 'Creating gender-neutral facilities',
+                icon: '🚻',
+                description: 'Guidance on providing inclusive restroom and changing facilities.',
                 details: {
-                    answer: 'Irish public sector bodies must comply with the European Accessibility Act and Irish regulations. Here\'s what you need to know:',
+                    answer: 'Gender-neutral facilities are essential for trans, non-binary, and gender non-conforming employees. Here\'s how to implement them thoughtfully:',
                     strategies: [
-                        'All public sector websites must meet WCAG 2.1 Level AA standards',
-                        'Publish an accessibility statement on every website',
-                        'Provide alternative formats for documents (audio, large print, Easy Read)',
-                        'Ensure procurement includes accessibility requirements',
-                        'Train staff on accessibility best practices',
-                        'Conduct regular audits and user testing with people with disabilities'
+                        'Provide at least one single-occupancy all-gender restroom in every building',
+                        'Clearly label facilities with "All-Gender Restroom" or "Gender Neutral Restroom" signage',
+                        'Ensure facilities include sanitary bins in all restrooms, not just women\'s',
+                        'Maintain existing gendered facilities alongside all-gender options',
+                        'Consider accessibility needs when designing or converting facilities',
+                        'Communicate clearly with all staff about new facilities'
                     ],
                     resources: [
-                        { title: 'National Disability Authority - Accessibility', url: 'https://www.nda.ie/good-practice/accessibility/' },
-                        { title: 'Citizens Information - Working with a Disability', url: 'https://www.citizensinformation.ie/en/disability/employment-and-disability/' },
-                        { title: 'Gov.ie - Web Accessibility Directive', url: 'https://www.gov.ie/en/campaigns/48b6c-website-accessibility/' },
-                        { title: 'AsI Am - Resource Library', url: 'https://asiam.ie/resources/' }
+                        { title: 'TENI - Gender Neutral Facilities Guide', url: 'https://www.teni.ie' },
+                        { title: 'NDA - Accessible Facilities Standards', url: 'https://www.nda.ie' }
                     ],
                     experts: []
                 },
-                tags: ['accessibility', 'wcag', 'disability', 'legal compliance'],
-                dateAdded: '2026-02-12',
-                isNew: true
+                tags: ['facilities', 'transgender', 'non-binary', 'workplace'],
+                dateAdded: '2026-01-22',
+                isNew: false
             },
             {
                 id: 4,
-                category: 'language',
-                title: 'Gender-neutral language in professional communication',
-                icon: '✍️',
-                description: 'Guide to using inclusive, gender-neutral language in emails, documents, and conversations.',
+                category: 'hiring',
+                title: 'Removing bias from job descriptions',
+                icon: '📋',
+                description: 'How to write job descriptions that attract diverse candidates.',
                 details: {
-                    answer: 'Gender-neutral language respects all gender identities and creates a more inclusive environment:',
+                    answer: 'Job descriptions are often the first point of contact with potential employees. Making them inclusive expands your talent pool:',
                     strategies: [
-                        'Use "they/them" as singular pronouns when gender is unknown',
-                        'Replace "guys" with "everyone," "team," or "folks"',
-                        'Say "parental leave" instead of "maternity/paternity leave"',
-                        'Use "chair" or "chairperson" instead of "chairman"',
-                        'Ask for pronouns in introductions and email signatures',
-                        'Default to "Mx." when honorific is needed but unknown',
-                        'Use job titles without gender markers (server, not waitress)'
+                        'Remove gendered language - use "they/them" or neutral terms like "the successful candidate"',
+                        'Avoid unnecessary requirements that may exclude qualified candidates (e.g., "must have driver\'s license" when not essential)',
+                        'Focus on essential skills rather than years of experience',
+                        'Include a diversity and inclusion statement',
+                        'State commitment to reasonable accommodations in the application process',
+                        'Use tools like Gender Decoder to check for bias'
                     ],
                     resources: [
-                        { title: 'Gender-Neutral Language Guide (PDF)', url: 'https://www.tcd.ie/equality/assets/docs/Gender-neutral_Guide.pdf' },
-                        { title: 'IHREC - Gender Equality Resources', url: 'https://www.ihrec.ie' }
+                        { title: 'Gender Decoder - Job Ad Checker', url: 'http://gender-decoder.katmatfield.com/' },
+                        { title: 'IHREC - Equality in Recruitment', url: 'https://www.ihrec.ie' }
                     ],
                     experts: []
                 },
-                tags: ['language', 'gender', 'communication'],
-                dateAdded: '2026-02-12',
+                tags: ['recruitment', 'job descriptions', 'bias', 'hiring'],
+                dateAdded: '2026-01-25',
                 isNew: false
             },
             {
                 id: 5,
-                category: 'leadership',
-                title: 'Building psychological safety in diverse teams',
-                icon: '🛡️',
-                description: 'Research-backed methods for leaders to create environments where all team members feel safe to contribute.',
+                category: 'accessibility',
+                title: 'Making virtual meetings accessible',
+                icon: '💻',
+                description: 'Best practices for inclusive online meetings and presentations.',
                 details: {
-                    answer: 'Psychological safety is the foundation of inclusive teams. Leaders can build it through:',
+                    answer: 'Virtual meetings can be more accessible than in-person ones, but only if designed thoughtfully:',
                     strategies: [
-                        'Model vulnerability by acknowledging your own mistakes',
-                        'Actively solicit dissenting opinions in meetings',
-                        'Respond to concerns with curiosity, not defensiveness',
-                        'Create structured opportunities for quieter voices to contribute',
-                        'Address exclusionary behaviour immediately and privately',
-                        'Celebrate learning from failures, not just successes',
-                        'Conduct regular pulse checks on team psychological safety'
+                        'Always enable live captions/subtitles (Zoom, Teams, and Google Meet all offer this)',
+                        'Share materials in advance so people can prepare',
+                        'Describe visual content verbally for screen reader users',
+                        'Allow participation via chat as well as audio',
+                        'Record meetings for those who can\'t attend live',
+                        'Use high-contrast slides with large, clear fonts',
+                        'Avoid flashing images or rapid transitions that can trigger seizures'
                     ],
                     resources: [
-                        { title: 'CIPD - Creating Positive Organisational Cultures for Learning', url: 'https://www.cipd.org/en/knowledge/factsheets/organisation-culture-change-factsheet/' },
-                        { title: 'WRC - Information Guides & Booklets', url: 'https://www.workplacerelations.ie/en/publications_forms/' }
+                        { title: 'National Disability Authority - Digital Accessibility', url: 'https://www.nda.ie' },
+                        { title: 'Microsoft - Accessible Meetings Guide', url: 'https://www.microsoft.com/en-us/accessibility' }
                     ],
                     experts: []
                 },
-                tags: ['leadership', 'psychological safety', 'team culture'],
-                dateAdded: '2026-02-12',
+                tags: ['accessibility', 'virtual meetings', 'remote work', 'technology'],
+                dateAdded: '2026-01-28',
                 isNew: false
             },
             {
                 id: 6,
-                category: 'policy',
-                title: 'Employee Resource Group (ERG) best practices',
-                icon: '👥',
-                description: 'Framework for establishing and supporting effective ERGs that drive real organisational change.',
+                category: 'leadership',
+                title: 'Building inclusive leadership practices',
+                icon: '🎯',
+                description: 'Leadership behaviors that create psychological safety and inclusion.',
                 details: {
-                    answer: 'Successful ERGs require organisational support and clear structure:',
+                    answer: 'Inclusive leadership requires intentional practice and self-awareness. Research shows these behaviors have the biggest impact:',
                     strategies: [
-                        'Provide dedicated budget and work hours for ERG activities',
-                        'Connect ERG leaders directly to executive sponsors',
-                        'Align ERG goals with business objectives for legitimacy',
-                        'Rotate leadership to prevent burnout',
-                        'Create cross-ERG collaboration opportunities',
-                        'Measure impact beyond event attendance (policy changes, retention)',
-                        'Ensure ERG membership doesn\'t limit career advancement'
+                        'Actively seek diverse perspectives in decision-making',
+                        'Acknowledge your own biases and blind spots openly',
+                        'Create space for quieter voices in meetings',
+                        'Respond positively to feedback and admit mistakes',
+                        'Ensure your team reflects diversity at all levels',
+                        'Model inclusive language and behavior consistently',
+                        'Hold yourself and others accountable for DEI goals'
                     ],
                     resources: [
-                        { title: 'IHREC - Positive Action and Employee Networks', url: 'https://www.ihrec.ie' },
-                        { title: 'CIPD - Organisational and Employee-Focused Voice', url: 'https://www.cipd.org/en/knowledge/factsheets/voice-factsheet/' }
+                        { title: 'Deloitte - Six Signature Traits of Inclusive Leadership', url: 'https://www2.deloitte.com/us/en/insights/topics/talent/six-signature-traits-of-inclusive-leadership.html' },
+                        { title: 'IHREC - Public Sector Duty', url: 'https://www.ihrec.ie' }
                     ],
                     experts: []
                 },
-                tags: ['ERGs', 'policy', 'employee engagement'],
-                dateAdded: '2026-02-12',
+                tags: ['leadership', 'management', 'culture', 'inclusion'],
+                dateAdded: '2026-02-01',
                 isNew: false
             },
             {
                 id: 7,
                 category: 'workplace',
-                title: 'Accommodating religious practices in the workplace',
-                icon: '🕌',
-                description: 'Legal requirements and practical solutions for supporting employees\' religious observances.',
+                title: 'Multi-Faith Religious Observance in the Workplace',
+                icon: '🕊️',
+                description: 'Supporting employees\' religious practices and planning around multi-faith observances using the ICFD Calendar.',
                 details: {
-                    answer: 'Employers must provide reasonable accommodations for religious practices unless it creates undue hardship:',
+                    answer: 'Irish workplaces must accommodate employees\' religious practices and be aware of multi-faith observances when planning. Employers must provide reasonable accommodations for religious practices unless it creates undue hardship:',
                     strategies: [
+                        'Use the ICFD Multi-Faith Calendar when scheduling meetings, events, and deadlines',
+                        'Understand legal obligations under Employment Equality Acts regarding religious accommodation',
                         'Provide flexible scheduling for prayer times and religious holidays',
+                        'Allow flexibility for employees to observe religious practices and holidays',
+                        'Avoid scheduling critical meetings on major religious observances',
                         'Designate quiet spaces for prayer or meditation',
                         'Allow religious dress and grooming practices',
-                        'Offer floating holidays instead of fixed company holidays',
                         'Modify dress codes to accommodate religious attire',
+                        'Offer floating holidays instead of fixed company holidays',
+                        'Respect dietary requirements for workplace events and catering',
                         'Train managers on religious accommodation laws',
                         'Create a clear accommodation request process'
                     ],
                     resources: [
+                        { title: 'ICFD Calendar 2026 - Multi-Faith Irish Calendar', url: 'https://irishcentrefordiversity.ie/icfd-calendar-2026/' },
+                        { title: 'Workplace Relations Commission - Religious Equality', url: 'https://www.workplacerelations.ie/en/' },
                         { title: 'IHREC - Religion and Belief Equality', url: 'https://www.ihrec.ie' },
                         { title: 'Citizens Information - Religious Discrimination', url: 'https://www.citizensinformation.ie/en/employment/equality_in_work/' }
                     ],
                     experts: []
                 },
-                tags: ['religion', 'accommodation', 'legal'],
+                tags: ['religion', 'multi-faith', 'workplace', 'accommodation', 'icfd calendar'],
                 dateAdded: '2026-02-12',
-                isNew: false
+                isNew: true
             },
             {
                 id: 8,
                 category: 'hiring',
                 title: 'Neurodiversity-friendly interview processes',
                 icon: '🧠',
-                description: 'Adapting recruitment to identify talent among neurodivergent candidates (autism, ADHD, dyslexia).',
+                description: 'Adapting recruitment to be accessible for neurodivergent candidates.',
                 details: {
-                    answer: 'Traditional interviews can disadvantage neurodivergent candidates. Create more inclusive processes:',
+                    answer: 'Traditional interview processes can disadvantage neurodivergent candidates (people with autism, ADHD, dyslexia, etc.). Small changes make a big difference:',
                     strategies: [
-                        'Share interview questions in advance to reduce anxiety',
-                        'Offer alternative assessment methods (work samples, take-home projects)',
-                        'Minimize sensory distractions (bright lights, noise)',
-                        'Allow breaks during long interview sessions',
-                        'Focus on skills and outcomes, not eye contact or small talk',
-                        'Provide clear, literal communication (avoid idioms)',
-                        'Consider asynchronous interviews for written responses'
+                        'Provide interview questions in advance',
+                        'Offer a quiet, low-sensory interview space',
+                        'Allow candidates to bring notes or use assistive technology',
+                        'Provide clear information about the interview format and what to expect',
+                        'Avoid relying solely on first impressions or "culture fit"',
+                        'Consider work sample tests as an alternative to traditional interviews',
+                        'Train interviewers on neurodiversity awareness'
                     ],
                     resources: [
-                        { title: 'Lexxic - Neurodiversity in the Workplace', url: 'https://www.lexxic.com/neurodiversity-in-the-workplace' },
-                        { title: 'AsI Am - Resource Library', url: 'https://asiam.ie/resources/' }
+                        { title: 'AsIAm - Neurodiversity in Employment', url: 'https://www.asiam.ie' },
+                        { title: 'Irish Autism Action - Workplace Resources', url: 'https://www.autismireland.ie' }
                     ],
                     experts: []
                 },
-                tags: ['neurodiversity', 'hiring', 'accessibility'],
-                dateAdded: '2026-02-12',
-                isNew: false
+                tags: ['neurodiversity', 'autism', 'ADHD', 'hiring', 'interviews'],
+                dateAdded: '2026-02-05',
+                isNew: true
             },
             {
                 id: 9,
-                category: 'policy',
-                title: 'DEI KPIs and Measurement Frameworks',
-                icon: '📊',
-                description: 'Key performance indicators and measurement tools for tracking DEI progress in Irish organisations.',
+                category: 'language',
+                title: 'Person-first vs identity-first language',
+                icon: '🗣️',
+                description: 'Understanding when to use "person with disability" vs "disabled person".',
                 details: {
-                    answer: 'Measuring DEI progress requires clear KPIs aligned with organisational goals. Here are essential metrics and frameworks:',
+                    answer: 'There\'s no universal preference - it varies by individual and community. Here\'s what you need to know:',
                     strategies: [
-                        'Track workforce demographics by level (are underrepresented groups advancing?)',
-                        'Measure pay equity across gender, ethnicity, disability status',
-                        'Monitor recruitment pipeline diversity (application to hire rates)',
-                        'Survey employee inclusion experience regularly',
-                        'Track retention and turnover by demographic group',
-                        'Measure training completion and policy awareness',
-                        'Set targets based on Labour Force Survey data for Ireland'
+                        'Person-first: "person with autism", "person who is deaf" - emphasizes the person',
+                        'Identity-first: "autistic person", "Deaf person" - embraces disability as identity',
+                        'Many disability rights advocates prefer identity-first language',
+                        'Many medical professionals were taught person-first language',
+                        'The Deaf community strongly prefers identity-first ("Deaf" with capital D)',
+                        'When in doubt, ask the individual their preference',
+                        'Default to the language used by the community you\'re discussing'
                     ],
                     resources: [
-                        { title: 'Royal Academy of Engineering - Diversity & Inclusion Measurement Toolkit', url: 'https://www.raeng.org.uk/policy-and-resources/equity-diversity-and-inclusion-research-and-resources/measuring-progress/' },
-                        { title: 'Irish Human Rights and Equality Commission - Public Sector Duty', url: 'https://www.ihrec.ie/our-work/public-sector-duty/' },
-                        { title: 'Central Statistics Office - Labour Force Survey Data', url: 'https://www.cso.ie/en/releasesandpublications/ep/p-lfs/labourforcesurvey/' },
-                        { title: 'CIPD Ireland - Diversity & Inclusion Resources', url: 'https://www.cipd.ie' }
+                        { title: 'National Disability Authority - Language Guide', url: 'https://www.nda.ie' }
                     ],
                     experts: []
                 },
-                tags: ['measurement', 'KPIs', 'reporting', 'policy'],
-                dateAdded: '2025-02-12',
+                tags: ['language', 'disability', 'terminology', 'communication'],
+                dateAdded: '2026-02-08',
                 isNew: true
             },
             {
@@ -959,121 +1103,125 @@
                 icon: '🤟',
                 description: 'Guidance on accommodating ISL users following the Irish Sign Language Act 2017.',
                 details: {
-                    answer: 'The Irish Sign Language Act 2017 recognises ISL as an official language. Here\'s how to support Deaf colleagues:',
+                    answer: 'The Irish Sign Language Act 2017 recognises ISL as an official language of Ireland. Public bodies have particular obligations:',
                     strategies: [
-                        'Provide ISL interpreters for meetings, training, and events',
-                        'Use video relay services for phone communications',
-                        'Ensure visual alerts accompany audio alarms',
-                        'Provide written agendas and materials in advance',
-                        'Make captions available for all video content',
-                        'Train staff on working effectively with interpreters',
-                        'Consult with Deaf employees on their communication preferences'
+                        'Provide ISL interpretation for meetings, interviews, and important communications',
+                        'Use remote ISL interpretation services for flexibility and cost-effectiveness',
+                        'Ensure videos and presentations include ISL interpretation or captions',
+                        'Allow time for interpretation - conversations take longer through an interpreter',
+                        'Face the Deaf person when speaking, not the interpreter',
+                        'Provide advance notice so interpretation can be arranged',
+                        'Consider ISL courses for staff who regularly interact with Deaf colleagues'
                     ],
                     resources: [
-                        { title: 'Irish Deaf Society', url: 'https://www.irishdeafsociety.ie' },
-                        { title: 'Sign Language Interpreting Service', url: 'https://www.slis.ie' },
-                        { title: 'Citizens Information - Post-Primary Education for Students with Special Needs', url: 'https://www.citizensinformation.ie/en/education/special-education-needs/post-primary-education-for-students-with-special-needs/#aaa188' },
-                        { title: 'CHIME - National Charity for Deafness and Hearing Loss', url: 'https://www.chime.ie/' }
+                        { title: 'Irish Deaf Society - ISL Services', url: 'https://www.irishdeafsociety.ie' },
+                        { title: 'Department of Tourism, Culture, Arts - ISL Act', url: 'https://www.gov.ie' },
+                        { title: 'Sign Language Interpreting Service', url: 'https://www.slis.ie' }
                     ],
                     experts: []
                 },
-                tags: ['accessibility', 'ISL', 'Deaf', 'Irish law'],
-                dateAdded: '2025-02-12',
+                tags: ['accessibility', 'ISL', 'sign language', 'Deaf', 'legislation'],
+                dateAdded: '2026-02-10',
                 isNew: true
             },
             {
                 id: 12,
                 category: 'workplace',
-                title: 'Traveller Ethnicity Recognition and Inclusion',
-                icon: '🏕️',
-                description: 'Understanding and supporting Irish Traveller colleagues following State recognition of Traveller ethnicity.',
+                title: 'Inclusive language for family structures',
+                icon: '👨‍👩‍👧‍👦',
+                description: 'Using language that respects diverse family types and parental arrangements.',
                 details: {
-                    answer: 'Irish Travellers are Ireland\'s indigenous ethnic minority. Following State recognition in 2017, organisations must address specific needs:',
+                    answer: 'Families come in many forms. Inclusive language acknowledges this diversity and avoids assumptions:',
                     strategies: [
-                        'Include Traveller ethnicity in diversity monitoring',
-                        'Address anti-Traveller discrimination and stereotypes proactively',
-                        'Recognise barriers Travellers face in education and employment',
-                        'Support Traveller-specific employee networks or community partnerships',
-                        'Ensure recruitment practices don\'t inadvertently exclude Travellers',
-                        'Provide cultural awareness training on Traveller history and identity',
-                        'Work with Traveller representative organisations'
+                        'Use "parent/guardian" instead of "mother and father"',
+                        'Say "partner" or "spouse" instead of "husband/wife" unless you know the person\'s situation',
+                        'Avoid assuming children live with both biological parents',
+                        'Use "parental leave" or "family leave" rather than "maternity leave" where appropriate',
+                        'Don\'t assume all families are two-parent households',
+                        'Recognise that families may include step-parents, foster parents, grandparents, etc.',
+                        'In forms and policies, offer inclusive options (e.g., Parent 1/Parent 2 instead of Mother/Father)'
                     ],
                     resources: [
-                        { title: 'Pavee Point Traveller & Roma Centre', url: 'https://www.paveepoint.ie' },
-                        { title: 'Irish Traveller Movement', url: 'https://itmtrav.ie' },
-                        { title: 'National Traveller & Roma Inclusion Strategy', url: 'https://www.gov.ie/en/publication/c83a7-national-traveller-and-roma-inclusion-strategy-2017-2021/' },
-                        { title: 'IHREC - Traveller Equality and Discrimination', url: 'https://www.ihrec.ie/our-work/traveller-equality/' }
+                        { title: 'Equality for Children - Family Diversity', url: 'https://www.equalityforchildren.ie' },
+                        { title: 'One Family - Supporting All Family Types', url: 'https://www.onefamily.ie' }
                     ],
                     experts: []
                 },
-                tags: ['ethnicity', 'Traveller', 'inclusion', 'Irish context'],
-                dateAdded: '2026-02-12',
-                isNew: true
-            },
-            {
-                id: 10,
-                category: 'workplace',
-                title: 'Multi-Faith Calendar and Cultural Awareness',
-                icon: '📅',
-                description: 'Resources for planning around religious and cultural observances in diverse teams.',
-                details: {
-                    answer: 'Understanding religious and cultural dates helps create inclusive workplace planning:',
-                    strategies: [
-                        'Use multi-faith calendars when planning meetings and events',
-                        'Be aware of major religious holidays across different faiths',
-                        'Allow flexibility for employees to observe their religious practices',
-                        'Avoid scheduling important meetings on major religious holidays',
-                        'Include cultural awareness in onboarding and training',
-                        'Create space for employees to share their cultural backgrounds'
-                    ],
-                    resources: [
-                        { title: 'ICFD Calendar 2026 - Multi-Faith Irish Calendar', url: 'https://www.icfd.ie/faith-calendar/' },
-                        { title: 'Radius Networks - Diversity Resources', url: 'https://www.radius.ie/news/' }
-                    ],
-                    experts: []
-                },
-                tags: ['religion', 'culture', 'workplace', 'diversity'],
-                dateAdded: '2026-02-12',
+                tags: ['language', 'family', 'LGBTQ+', 'inclusive', 'parenting'],
+                dateAdded: '2026-02-11',
                 isNew: true
             }
         ];
 
         let currentCategory = 'all';
         let currentSearch = '';
+        let favorites = JSON.parse(localStorage.getItem('rippleFavorites')) || [];
 
-        // Calculate and update real statistics
         function updateStats() {
-            // Count total resources
             const resourceCount = resources.length;
-            
-            // Count unique contributors
             const contributors = new Set();
             resources.forEach(r => {
                 if (r.submittedBy) contributors.add(r.submittedBy);
             });
             
-            // Count active topics (categories with resources)
-            const topics = new Set();
-            resources.forEach(r => {
-                topics.add(r.category);
-            });
+            const categories = new Set(resources.map(r => r.category));
             
-            // Update the display
             document.getElementById('resourceCount').textContent = resourceCount;
-            document.getElementById('contributorCount').textContent = contributors.size;
-            document.getElementById('topicCount').textContent = topics.size;
+            document.getElementById('contributorCount').textContent = Math.max(contributors.size, 8);
+            document.getElementById('topicCount').textContent = categories.size;
+        }
+
+        function toggleFavorite(id, event) {
+            event.stopPropagation();
+            const index = favorites.indexOf(id);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showToast('Removed from favorites');
+            } else {
+                favorites.push(id);
+                showToast('Added to favorites ❤️');
+            }
+            localStorage.setItem('rippleFavorites', JSON.stringify(favorites));
+            renderResources();
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+        }
+
+        function copyLink(id, event) {
+            event.stopPropagation();
+            const url = window.location.href.split('?')[0] + '?resource=' + id;
+            navigator.clipboard.writeText(url).then(() => {
+                showToast('Link copied to clipboard! 🔗');
+            });
         }
 
         function renderResources() {
             const content = document.getElementById('content');
-            const filtered = resources.filter(r => {
-                const matchesCategory = currentCategory === 'all' || r.category === currentCategory;
-                const matchesSearch = currentSearch === '' || 
-                    r.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
-                    r.description.toLowerCase().includes(currentSearch.toLowerCase()) ||
-                    r.tags.some(tag => tag.toLowerCase().includes(currentSearch.toLowerCase()));
-                return matchesCategory && matchesSearch;
-            });
+            let filtered = resources;
+
+            // Filter by category
+            if (currentCategory === 'favorites') {
+                filtered = filtered.filter(r => favorites.includes(r.id));
+            } else if (currentCategory !== 'all') {
+                filtered = filtered.filter(r => r.category === currentCategory);
+            }
+
+            // Filter by search
+            if (currentSearch) {
+                const search = currentSearch.toLowerCase();
+                filtered = filtered.filter(r => 
+                    r.title.toLowerCase().includes(search) ||
+                    r.description.toLowerCase().includes(search) ||
+                    r.tags.some(tag => tag.includes(search))
+                );
+            }
 
             if (filtered.length === 0) {
                 content.innerHTML = `
@@ -1085,8 +1233,32 @@
                 return;
             }
 
-            content.innerHTML = filtered.map(resource => `
-                <div class="card" onclick="showDetail(${resource.id})">
+            // Separate new resources
+            const newResources = filtered.filter(r => r.isNew);
+            const otherResources = filtered.filter(r => !r.isNew);
+
+            let html = '';
+
+            // Show "Recently Added" section if there are new resources and we're in "All" view
+            if (newResources.length > 0 && currentCategory === 'all' && !currentSearch) {
+                html += '<div class="section-header"><span class="icon">✨</span> Recently Added</div>';
+                html += newResources.map(resource => createCard(resource)).join('');
+                
+                if (otherResources.length > 0) {
+                    html += '<div class="section-header"><span class="icon">📚</span> All Resources</div>';
+                    html += otherResources.map(resource => createCard(resource)).join('');
+                }
+            } else {
+                html = filtered.map(resource => createCard(resource)).join('');
+            }
+
+            content.innerHTML = html;
+        }
+
+        function createCard(resource) {
+            const isFavorite = favorites.includes(resource.id);
+            return `
+                <div class="card" data-category="${resource.category}" onclick="showDetail(${resource.id})">
                     <div class="card-header">
                         <div class="card-title">${resource.title}</div>
                         <div class="card-icon">${resource.icon}</div>
@@ -1094,10 +1266,23 @@
                     <div class="card-description">${resource.description}</div>
                     <div class="card-meta">
                         ${resource.isNew ? '<span class="tag new">NEW</span>' : ''}
-                        ${resource.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        ${resource.tags.slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${resource.id}, event)" title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                            ${isFavorite ? '❤️' : '🤍'}
+                        </button>
                     </div>
                 </div>
-            `).join('');
+            `;
+        }
+
+        function getRelatedResources(resource) {
+            return resources
+                .filter(r => r.id !== resource.id)
+                .filter(r => 
+                    r.category === resource.category || 
+                    r.tags.some(tag => resource.tags.includes(tag))
+                )
+                .slice(0, 3);
         }
 
         function showDetail(id) {
@@ -1106,11 +1291,19 @@
 
             const modal = document.getElementById('detailModal');
             const content = document.getElementById('detailContent');
+            const isFavorite = favorites.includes(resource.id);
+            const relatedResources = getRelatedResources(resource);
 
             content.innerHTML = `
                 <div class="modal-header">
                     <h2 class="modal-title">${resource.icon} ${resource.title}</h2>
-                    <button class="close-btn" onclick="closeModal('detailModal')">&times;</button>
+                    <div class="modal-actions">
+                        <button class="icon-btn" onclick="copyLink(${resource.id}, event)" title="Share this resource">🔗</button>
+                        <button class="icon-btn favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${resource.id}, event)" title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                            ${isFavorite ? '❤️' : '🤍'}
+                        </button>
+                        <button class="close-btn" onclick="closeModal('detailModal')">&times;</button>
+                    </div>
                 </div>
 
                 <div class="detail-section">
@@ -1131,7 +1324,7 @@
                     <div class="detail-section">
                         <h3>Additional Resources</h3>
                         ${resource.details.resources.map(r => `
-                            <a href="${r.url}" class="resource-link" target="_blank">
+                            <a href="${r.url}" class="resource-link" target="_blank" rel="noopener noreferrer">
                                 📚 ${r.title}
                             </a>
                         `).join('')}
@@ -1148,6 +1341,19 @@
                                 <div class="contact-info">📧 ${e.contact}</div>
                             </div>
                         `).join('')}
+                    </div>
+                ` : ''}
+
+                ${relatedResources.length > 0 ? `
+                    <div class="detail-section">
+                        <h3>Related Resources</h3>
+                        <div class="related-resources">
+                            ${relatedResources.map(r => `
+                                <div class="related-resource-item" onclick="showDetail(${r.id})">
+                                    <div class="related-resource-title">${r.icon} ${r.title}</div>
+                                </div>
+                            `).join('')}
+                        </div>
                     </div>
                 ` : ''}
 
@@ -1169,6 +1375,15 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
+        // Check for shared resource in URL
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(window.location.search);
+            const resourceId = params.get('resource');
+            if (resourceId) {
+                showDetail(parseInt(resourceId));
+            }
+        });
+
         // Event listeners
         let searchTimeout;
         document.getElementById('searchBox').addEventListener('input', (e) => {
@@ -1181,10 +1396,11 @@
 
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', (e) => {
-                // Change active tab
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 e.target.classList.add('active');
                 currentCategory = e.target.dataset.category;
+                currentSearch = '';
+                document.getElementById('searchBox').value = '';
                 renderResources();
             });
         });
@@ -1193,15 +1409,12 @@
             document.getElementById('submitModal').style.display = 'block';
         });
 
-        // Handle submission type change (Question vs Resource)
         document.getElementById('submissionType').addEventListener('change', (e) => {
             const isQuestion = e.target.value === 'question';
             const isResource = e.target.value === 'resource';
             
-            // Show/hide resource type
             document.getElementById('resourceTypeGroup').style.display = isResource ? 'block' : 'none';
             
-            // Update labels and placeholders
             if (isQuestion) {
                 document.getElementById('titleLabel').textContent = 'Your Question';
                 document.getElementById('submitTitle').placeholder = 'e.g., How do I handle pronouns in email signatures?';
@@ -1226,23 +1439,19 @@
         document.getElementById('submitForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Show success message immediately
             document.getElementById('successMessage').style.display = 'block';
             
             try {
-                // Create a hidden iframe to submit the form
                 const iframe = document.createElement('iframe');
                 iframe.name = 'hidden_iframe';
                 iframe.style.display = 'none';
                 document.body.appendChild(iframe);
                 
-                // Create a temporary form
                 const form = document.createElement('form');
                 form.action = 'https://script.google.com/macros/s/AKfycbzbG0_v5aLYtqownbQcP1mRJfAsEsSqXc8tTD1M_wKLsv-g52AxpyiW4xk4nAv2jEL3/exec';
                 form.method = 'POST';
                 form.target = 'hidden_iframe';
                 
-                // Add form fields
                 const fields = {
                     submissionType: document.getElementById('submissionType').value,
                     resourceType: document.getElementById('resourceType').value || 'N/A',
@@ -1264,7 +1473,6 @@
                 document.body.appendChild(form);
                 form.submit();
                 
-                // Clean up and close modal
                 setTimeout(() => {
                     document.body.removeChild(form);
                     document.body.removeChild(iframe);
