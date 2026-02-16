@@ -1105,7 +1105,7 @@
                     <div class="card-meta">
                         ${resource.isNew ? '<span class="tag new">NEW</span>' : ''}
                         ${resource.tags.slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('')}
-                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${resource.id}, event)" title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}" aria-label="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${resource.id}, event)" title="${isFavorite ? 'Remove from favourites' : 'Add to favourites'}" aria-label="${isFavorite ? 'Remove from favourites' : 'Add to favourites'}">
                             ${isFavorite ? '❤️' : '🤍'}
                         </button>
                     </div>
@@ -1137,7 +1137,7 @@
                     <h2 class="modal-title">${resource.icon} ${resource.title}</h2>
                     <div class="modal-actions">
                         <button class="icon-btn" onclick="copyLink(${resource.id}, event)" title="Share this resource" aria-label="Share this resource">🔗</button>
-                        <button class="icon-btn favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${resource.id}, event)" title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}" aria-label="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                        <button class="icon-btn favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${resource.id}, event)" title="${isFavorite ? 'Remove from favourites' : 'Add to favourites'}" aria-label="${isFavorite ? 'Remove from favourites' : 'Add to favourites'}">
                             ${isFavorite ? '❤️' : '🤍'}
                         </button>
                         <button class="close-btn" onclick="closeModal('detailModal')" aria-label="Close dialog">&times;</button>
