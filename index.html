@@ -630,9 +630,48 @@
                 to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
             }
         }
+
+        /* High Contrast Mode */
+        body.high-contrast { background: #000; }
+        body.high-contrast .header { background: #000; border-bottom: 3px solid #fff; }
+        body.high-contrast .header h1, body.high-contrast .header .tagline, body.high-contrast .card-title, body.high-contrast .card-description, body.high-contrast .stat-number, body.high-contrast .stat-label, body.high-contrast .modal-title, body.high-contrast .detail-section h3, body.high-contrast .detail-section p, body.high-contrast .detail-section li, body.high-contrast .section-header, body.high-contrast .empty-state, body.high-contrast .form-group label { color: #fff; }
+        body.high-contrast .search-box, body.high-contrast .card, body.high-contrast .stat-box, body.high-contrast .modal-content, body.high-contrast .form-group input, body.high-contrast .form-group textarea, body.high-contrast .form-group select { background: #000; border: 3px solid #fff; color: #fff; }
+        body.high-contrast .tab { background: #000; border: 3px solid #fff; color: #fff; }
+        body.high-contrast .tab.active { background: #fff; color: #000; }
+        body.high-contrast .tag { background: #fff; color: #000; }
+        body.high-contrast .resource-link { background: #000; border: 2px solid #fff; color: #fff; }
+        .contrast-toggle { position: fixed; bottom: 110px; right: 24px; width: 56px; height: 56px; border-radius: 28px; background: white; border: 2px solid #667eea; cursor: pointer; z-index: 1000; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.2s; }
+        .contrast-toggle:hover { transform: scale(1.05); }
+        body.high-contrast .contrast-toggle { background: #000; border-color: #fff; color: #fff; }
+
+        /* Skip to Content Link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 0 0 4px 0;
+            z-index: 10000;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
+    <a href="#content" class="skip-link">Skip to main content</a>
     <div class="header">
         <div class="logo-section">
             <div style="position: relative; display: inline-block;">
@@ -646,7 +685,7 @@
             </div>
         </div>
         <p class="tagline">A DEI Knowledge Hub for the Irish Public Service and Semi-State DEI Collaboration Group</p>
-        <button onclick="openModal('aboutModal')" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.9); border: 2px solid #667eea; color: #667eea; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">?</button>
+        <button onclick="openModal('aboutModal')" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.9); border: 2px solid #667eea; color: #667eea; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" aria-label="About Ripple">?</button>
     </div>
 
     <div class="stats-container">
@@ -676,14 +715,17 @@
         <button class="tab" data-category="accessibility">Accessibility</button>
         <button class="tab" data-category="language">Inclusive Language</button>
         <button class="tab" data-category="policy">Policy & Legal</button>
-        <button class="tab" data-category="favorites">❤️ My Favorites</button>
+        <button class="tab" data-category="favorites">❤️ My Favourites</button>
     </div>
 
-    <div class="content" id="content">
+    <div class="content" id="content" role="main" aria-live="polite" aria-atomic="false">
         <!-- Content will be dynamically inserted here -->
     </div>
 
     <button class="floating-action" id="addButton" title="Create a Ripple">+</button>
+
+    <!-- High Contrast Toggle -->
+    <button class="contrast-toggle" id="contrastToggle" title="Toggle High Contrast">◐</button>
 
     <!-- Toast notification -->
     <div class="toast" id="toast"></div>
@@ -706,7 +748,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Contribute to Ripple</h2>
-                <button class="close-btn" id="closeSubmit">&times;</button>
+                <button class="close-btn" id="closeSubmit" aria-label="Close dialog">&times;</button>
             </div>
             <p style="color: #666; margin-bottom: 20px;">
                 Share a resource or ask a question to help build our collaborative DEI knowledge base. Questions will be answered by the group and both questions and resources are reviewed before appearing on the platform (typically within 1-2 weeks).
@@ -772,7 +814,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">About Ripple</h2>
-                <button class="close-btn" onclick="closeModal('aboutModal')">&times;</button>
+                <button class="close-btn" onclick="closeModal('aboutModal')" aria-label="Close dialog">&times;</button>
             </div>
             
             <div style="padding: 20px; line-height: 1.6;">
@@ -792,8 +834,8 @@
                 <p><strong>📚 Browse Resources</strong><br>
                 Search or filter by category to find guidance on workplace DEI topics, from pronouns to accessibility to hiring practices.</p>
                 
-                <p><strong>❤️ Save Favorites</strong><br>
-                Click the heart icon on any resource to save it to your favorites for quick access later.</p>
+                <p><strong>❤️ Save Favourites</strong><br>
+                Click the heart icon on any resource to save it to your favourites for quick access later.</p>
                 
                 <p><strong>❓ Ask Questions</strong><br>
                 Have a DEI question? Ask the community! Click the + button and select "Ask a Question". The collaborative group will review and answer, then add the best responses as permanent resources.</p>
@@ -821,341 +863,125 @@
     </div>
 
     <script>
-        // Sample data structure - Your actual resources would go here
-        const resources = [
-            {
-                id: 1,
-                category: 'policy',
-                title: 'Essential Irish DEI Resources and Legal Framework',
-                icon: '📚',
-                description: 'Key Irish resources, legislation, and organisations for DEI practitioners in the public sector.',
-                details: {
-                    answer: 'Ireland has a robust framework of DEI legislation and support organisations. Here are the essential resources every public sector organisation should know:',
-                    strategies: [
-                        'Irish Human Rights and Equality Commission (IHREC) - statutory body providing guidance and enforcement',
-                        'Citizens Information - practical guidance on employment equality and rights',
-                        'Workplace Relations Commission (WRC) - handles equality complaints and mediation',
-                        'National Disability Authority - accessibility standards and guidance',
-                        'Irish Council for Civil Liberties (ICCL) - human rights and equality advocacy'
-                    ],
-                    resources: [
-                        { title: 'IHREC - Equality and Human Rights Resources', url: 'https://www.ihrec.ie' },
-                        { title: 'Citizens Information - Employment Equality', url: 'https://www.citizensinformation.ie/en/employment/equality_in_work/' },
-                        { title: 'WRC - Equality Information', url: 'https://www.workplacerelations.ie/en/' },
-                        { title: 'National Disability Authority - Universal Design', url: 'https://www.nda.ie' },
-                        { title: 'ICCL - Rights and Equality', url: 'https://www.iccl.ie' }
-                    ],
-                    experts: []
-                },
-                tags: ['legislation', 'Irish law', 'resources', 'IHREC'],
-                dateAdded: '2026-01-15',
-                isNew: false
-            },
-            {
-                id: 2,
-                category: 'language',
-                title: 'Using pronouns in the workplace',
-                icon: '💬',
-                description: 'Best practices for using and respecting pronouns in professional settings.',
-                details: {
-                    answer: 'Respecting pronouns is a fundamental aspect of workplace inclusion. Here\'s how to do it right:',
-                    strategies: [
-                        'Add your pronouns to email signatures and name badges to normalize the practice',
-                        'Never assume someone\'s pronouns based on their appearance or name',
-                        'If you make a mistake, apologize briefly and move on - don\'t make it about you',
-                        'Practice using they/them pronouns for people whose pronouns you don\'t know',
-                        'Make sharing pronouns optional, not mandatory - some people may not feel safe sharing',
-                        'Include pronoun options in HR systems and forms'
-                    ],
-                    resources: [
-                        { title: 'TENI - Trans Equality in the Workplace', url: 'https://www.teni.ie' }
-                    ],
-                    experts: []
-                },
-                tags: ['pronouns', 'LGBTQ+', 'communication', 'inclusion'],
-                dateAdded: '2026-01-20',
-                isNew: false
-            },
-            {
-                id: 3,
-                category: 'workplace',
-                title: 'Creating gender-neutral facilities',
-                icon: '🚻',
-                description: 'Guidance on providing inclusive restroom and changing facilities.',
-                details: {
-                    answer: 'Gender-neutral facilities are essential for trans, non-binary, and gender non-conforming employees. Here\'s how to implement them thoughtfully:',
-                    strategies: [
-                        'Provide at least one single-occupancy all-gender restroom in every building',
-                        'Clearly label facilities with "All-Gender Restroom" or "Gender Neutral Restroom" signage',
-                        'Ensure facilities include sanitary bins in all restrooms, not just women\'s',
-                        'Maintain existing gendered facilities alongside all-gender options',
-                        'Consider accessibility needs when designing or converting facilities',
-                        'Communicate clearly with all staff about new facilities'
-                    ],
-                    resources: [
-                        { title: 'TENI - Gender Neutral Facilities Guide', url: 'https://www.teni.ie' },
-                        { title: 'NDA - Accessible Facilities Standards', url: 'https://www.nda.ie' }
-                    ],
-                    experts: []
-                },
-                tags: ['facilities', 'transgender', 'non-binary', 'workplace'],
-                dateAdded: '2026-01-22',
-                isNew: false
-            },
-            {
-                id: 4,
-                category: 'hiring',
-                title: 'Removing bias from job descriptions',
-                icon: '📋',
-                description: 'How to write job descriptions that attract diverse candidates.',
-                details: {
-                    answer: 'Job descriptions are often the first point of contact with potential employees. Making them inclusive expands your talent pool:',
-                    strategies: [
-                        'Remove gendered language - use "they/them" or neutral terms like "the successful candidate"',
-                        'Avoid unnecessary requirements that may exclude qualified candidates (e.g., "must have driver\'s license" when not essential)',
-                        'Focus on essential skills rather than years of experience',
-                        'Include a diversity and inclusion statement',
-                        'State commitment to reasonable accommodations in the application process',
-                        'Use tools like Gender Decoder to check for bias'
-                    ],
-                    resources: [
-                        { title: 'Gender Decoder - Job Ad Checker', url: 'http://gender-decoder.katmatfield.com/' },
-                        { title: 'IHREC - Equality in Recruitment', url: 'https://www.ihrec.ie' }
-                    ],
-                    experts: []
-                },
-                tags: ['recruitment', 'job descriptions', 'bias', 'hiring'],
-                dateAdded: '2026-01-25',
-                isNew: false
-            },
-            {
-                id: 5,
-                category: 'accessibility',
-                title: 'Making virtual meetings accessible',
-                icon: '💻',
-                description: 'Best practices for inclusive online meetings and presentations.',
-                details: {
-                    answer: 'Virtual meetings can be more accessible than in-person ones, but only if designed thoughtfully:',
-                    strategies: [
-                        'Always enable live captions/subtitles (Zoom, Teams, and Google Meet all offer this)',
-                        'Share materials in advance so people can prepare',
-                        'Describe visual content verbally for screen reader users',
-                        'Allow participation via chat as well as audio',
-                        'Record meetings for those who can\'t attend live',
-                        'Use high-contrast slides with large, clear fonts',
-                        'Avoid flashing images or rapid transitions that can trigger seizures'
-                    ],
-                    resources: [
-                        { title: 'National Disability Authority - Digital Accessibility', url: 'https://www.nda.ie' },
-                        { title: 'Microsoft - Accessible Meetings Guide', url: 'https://www.microsoft.com/en-us/accessibility' }
-                    ],
-                    experts: []
-                },
-                tags: ['accessibility', 'virtual meetings', 'remote work', 'technology'],
-                dateAdded: '2026-01-28',
-                isNew: false
-            },
-            {
-                id: 6,
-                category: 'leadership',
-                title: 'Building inclusive leadership practices',
-                icon: '🎯',
-                description: 'Leadership behaviors that create psychological safety and inclusion.',
-                details: {
-                    answer: 'Inclusive leadership requires intentional practice and self-awareness. Research shows these behaviors have the biggest impact:',
-                    strategies: [
-                        'Actively seek diverse perspectives in decision-making',
-                        'Acknowledge your own biases and blind spots openly',
-                        'Create space for quieter voices in meetings',
-                        'Respond positively to feedback and admit mistakes',
-                        'Ensure your team reflects diversity at all levels',
-                        'Model inclusive language and behavior consistently',
-                        'Hold yourself and others accountable for DEI goals'
-                    ],
-                    resources: [
-                        { title: 'Deloitte - Six Signature Traits of Inclusive Leadership', url: 'https://www2.deloitte.com/us/en/insights/topics/talent/six-signature-traits-of-inclusive-leadership.html' },
-                        { title: 'IHREC - Public Sector Duty', url: 'https://www.ihrec.ie' }
-                    ],
-                    experts: []
-                },
-                tags: ['leadership', 'management', 'culture', 'inclusion'],
-                dateAdded: '2026-02-01',
-                isNew: false
-            },
-            {
-                id: 7,
-                category: 'workplace',
-                title: 'Multi-Faith Religious Observance in the Workplace',
-                icon: '🕊️',
-                description: 'Supporting employees\' religious practices and planning around multi-faith observances using the ICFD Calendar.',
-                details: {
-                    answer: 'Irish workplaces must accommodate employees\' religious practices and be aware of multi-faith observances when planning. Employers must provide reasonable accommodations for religious practices unless it creates undue hardship:',
-                    strategies: [
-                        'Use the ICFD Multi-Faith Calendar when scheduling meetings, events, and deadlines',
-                        'Understand legal obligations under Employment Equality Acts regarding religious accommodation',
-                        'Provide flexible scheduling for prayer times and religious holidays',
-                        'Allow flexibility for employees to observe religious practices and holidays',
-                        'Avoid scheduling critical meetings on major religious observances',
-                        'Designate quiet spaces for prayer or meditation',
-                        'Allow religious dress and grooming practices',
-                        'Modify dress codes to accommodate religious attire',
-                        'Offer floating holidays instead of fixed company holidays',
-                        'Respect dietary requirements for workplace events and catering',
-                        'Train managers on religious accommodation laws',
-                        'Create a clear accommodation request process'
-                    ],
-                    resources: [
-                        { title: 'ICFD Calendar 2026 - Multi-Faith Irish Calendar', url: 'https://irishcentrefordiversity.ie/icfd-calendar-2026/' },
-                        { title: 'Workplace Relations Commission - Religious Equality', url: 'https://www.workplacerelations.ie/en/' },
-                        { title: 'IHREC - Religion and Belief Equality', url: 'https://www.ihrec.ie' },
-                        { title: 'Citizens Information - Religious Discrimination', url: 'https://www.citizensinformation.ie/en/employment/equality_in_work/' }
-                    ],
-                    experts: []
-                },
-                tags: ['religion', 'multi-faith', 'workplace', 'accommodation', 'icfd calendar'],
-                dateAdded: '2026-02-12',
-                isNew: true
-            },
-            {
-                id: 8,
-                category: 'hiring',
-                title: 'Neurodiversity-friendly interview processes',
-                icon: '🧠',
-                description: 'Adapting recruitment to be accessible for neurodivergent candidates.',
-                details: {
-                    answer: 'Traditional interview processes can disadvantage neurodivergent candidates (people with autism, ADHD, dyslexia, etc.). Small changes make a big difference:',
-                    strategies: [
-                        'Provide interview questions in advance',
-                        'Offer a quiet, low-sensory interview space',
-                        'Allow candidates to bring notes or use assistive technology',
-                        'Provide clear information about the interview format and what to expect',
-                        'Avoid relying solely on first impressions or "culture fit"',
-                        'Consider work sample tests as an alternative to traditional interviews',
-                        'Train interviewers on neurodiversity awareness'
-                    ],
-                    resources: [
-                        { title: 'AsIAm - Neurodiversity in Employment', url: 'https://www.asiam.ie' },
-                        { title: 'Irish Autism Action - Workplace Resources', url: 'https://www.autismireland.ie' }
-                    ],
-                    experts: []
-                },
-                tags: ['neurodiversity', 'autism', 'ADHD', 'hiring', 'interviews'],
-                dateAdded: '2026-02-05',
-                isNew: true
-            },
-            {
-                id: 9,
-                category: 'language',
-                title: 'Person-first vs identity-first language',
-                icon: '🗣️',
-                description: 'Understanding when to use "person with disability" vs "disabled person".',
-                details: {
-                    answer: 'There\'s no universal preference - it varies by individual and community. Here\'s what you need to know:',
-                    strategies: [
-                        'Person-first: "person with autism", "person who is deaf" - emphasizes the person',
-                        'Identity-first: "autistic person", "Deaf person" - embraces disability as identity',
-                        'Many disability rights advocates prefer identity-first language',
-                        'Many medical professionals were taught person-first language',
-                        'The Deaf community strongly prefers identity-first ("Deaf" with capital D)',
-                        'When in doubt, ask the individual their preference',
-                        'Default to the language used by the community you\'re discussing'
-                    ],
-                    resources: [
-                        { title: 'National Disability Authority - Language Guide', url: 'https://www.nda.ie' }
-                    ],
-                    experts: []
-                },
-                tags: ['language', 'disability', 'terminology', 'communication'],
-                dateAdded: '2026-02-08',
-                isNew: true
-            },
-            {
-                id: 10,
-                category: 'policy',
-                title: 'Irish Equality Legislation Overview',
-                icon: '⚖️',
-                description: 'Summary of key Irish equality laws relevant to workplace DEI including Employment Equality Acts.',
-                details: {
-                    answer: 'Irish equality legislation provides comprehensive protections. Key acts all employers must understand:',
-                    strategies: [
-                        'Employment Equality Acts 1998-2015: Prohibits discrimination on 9 grounds',
-                        'Equal Status Acts 2000-2018: Covers access to goods and services',
-                        'Irish Human Rights and Equality Commission Act 2014: Public Sector Equality and Human Rights Duty',
-                        'Maternity Protection Acts: Protects pregnant employees and new mothers',
-                        'Paternity Leave and Benefit Act 2016: 2 weeks paid leave',
-                        'Parents Leave and Benefit Act 2019: Additional parental leave rights'
-                    ],
-                    resources: [
-                        { title: 'Workplace Relations Commission - Employment Equality', url: 'https://www.workplacerelations.ie/en/' },
-                        { title: 'Irish Human Rights and Equality Commission', url: 'https://www.ihrec.ie' },
-                        { title: 'Citizens Information - Equality in the Workplace', url: 'https://www.citizensinformation.ie/en/employment/equality_in_work/' }
-                    ],
-                    experts: []
-                },
-                tags: ['legislation', 'compliance', 'Irish law', 'policy'],
-                dateAdded: '2025-02-12',
-                isNew: true
-            },
-            {
-                id: 11,
-                category: 'accessibility',
-                title: 'Irish Sign Language (ISL) in the Workplace',
-                icon: '🤟',
-                description: 'Guidance on accommodating ISL users following the Irish Sign Language Act 2017.',
-                details: {
-                    answer: 'The Irish Sign Language Act 2017 recognises ISL as an official language of Ireland. Public bodies have particular obligations:',
-                    strategies: [
-                        'Provide ISL interpretation for meetings, interviews, and important communications',
-                        'Use remote ISL interpretation services for flexibility and cost-effectiveness',
-                        'Ensure videos and presentations include ISL interpretation or captions',
-                        'Allow time for interpretation - conversations take longer through an interpreter',
-                        'Face the Deaf person when speaking, not the interpreter',
-                        'Provide advance notice so interpretation can be arranged',
-                        'Consider ISL courses for staff who regularly interact with Deaf colleagues'
-                    ],
-                    resources: [
-                        { title: 'Irish Deaf Society - ISL Services', url: 'https://www.irishdeafsociety.ie' },
-                        { title: 'Department of Tourism, Culture, Arts - ISL Act', url: 'https://www.gov.ie' },
-                        { title: 'Sign Language Interpreting Service', url: 'https://www.slis.ie' }
-                    ],
-                    experts: []
-                },
-                tags: ['accessibility', 'ISL', 'sign language', 'Deaf', 'legislation'],
-                dateAdded: '2026-02-10',
-                isNew: true
-            },
-            {
-                id: 12,
-                category: 'workplace',
-                title: 'Inclusive language for family structures',
-                icon: '👨‍👩‍👧‍👦',
-                description: 'Using language that respects diverse family types and parental arrangements.',
-                details: {
-                    answer: 'Families come in many forms. Inclusive language acknowledges this diversity and avoids assumptions:',
-                    strategies: [
-                        'Use "parent/guardian" instead of "mother and father"',
-                        'Say "partner" or "spouse" instead of "husband/wife" unless you know the person\'s situation',
-                        'Avoid assuming children live with both biological parents',
-                        'Use "parental leave" or "family leave" rather than "maternity leave" where appropriate',
-                        'Don\'t assume all families are two-parent households',
-                        'Recognise that families may include step-parents, foster parents, grandparents, etc.',
-                        'In forms and policies, offer inclusive options (e.g., Parent 1/Parent 2 instead of Mother/Father)'
-                    ],
-                    resources: [
-                        { title: 'Equality for Children - Family Diversity', url: 'https://www.equalityforchildren.ie' },
-                        { title: 'One Family - Supporting All Family Types', url: 'https://www.onefamily.ie' }
-                    ],
-                    experts: []
-                },
-                tags: ['language', 'family', 'LGBTQ+', 'inclusive', 'parenting'],
-                dateAdded: '2026-02-11',
-                isNew: true
-            }
-        ];
-
+        // ============================================
+        // GOOGLE SHEETS CONFIGURATION
+        // ============================================
+        
+        const GOOGLE_SHEET_ID = '11LebZb5fZ_8tdZgb82gdwYKuxBEbqkL08NONUjg2wx8';
+        const SHEET_NAME = 'Published Resources';
+        
+        // ============================================
+        // DATA LOADING
+        // ============================================
+        
+        let resources = [];
         let currentCategory = 'all';
         let currentSearch = '';
         let favorites = JSON.parse(localStorage.getItem('rippleFavorites')) || [];
+        let isLoading = true;
+
+        // Load resources from Google Sheets
+        async function loadResourcesFromSheet() {
+            try {
+                const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+                
+                const response = await fetch(url);
+                const text = await response.text();
+                
+                // Parse Google's JSON response (it's wrapped in a function call)
+                const json = JSON.parse(text.substr(47).slice(0, -2));
+                
+                // Convert sheet data to resources array
+                const rows = json.table.rows;
+                resources = rows.map((row, index) => {
+                    const cells = row.c;
+                    
+                    // Parse strategies (semicolon-separated)
+                    const strategiesText = cells[6]?.v || '';
+                    const strategies = strategiesText.split(';').map(s => s.trim()).filter(s => s);
+                    
+                    // Parse additional resources (format: "Title URL; Title URL")
+                    const resourcesText = cells[7]?.v || '';
+                    const additionalResources = resourcesText.split(';').map(r => {
+                        const parts = r.trim().split(' ');
+                        if (parts.length < 2) return null;
+                        const url = parts.pop();
+                        const title = parts.join(' ');
+                        return { title, url };
+                    }).filter(r => r);
+                    
+                    // Parse tags (comma-separated)
+                    const tagsText = cells[8]?.v || '';
+                    const tags = tagsText.split(',').map(t => t.trim()).filter(t => t);
+                    
+                    // Parse date - Google Sheets may send as number or formatted string
+                    let dateAdded = cells[9]?.v || new Date().toISOString().split('T')[0];
+                    if (typeof dateAdded === 'number') {
+                        // Convert Excel serial date to JavaScript date
+                        dateAdded = new Date((dateAdded - 25569) * 86400 * 1000).toISOString().split('T')[0];
+                    } else if (cells[9]?.f) {
+                        // If it's a formatted value, use that
+                        dateAdded = cells[9].f;
+                    }
+                    
+                    return {
+                        id: cells[0]?.v || index + 1,
+                        category: cells[1]?.v || 'workplace',
+                        title: cells[2]?.v || 'Untitled',
+                        icon: cells[3]?.v || '📚',
+                        description: cells[4]?.v || '',
+                        details: {
+                            answer: cells[5]?.v || '',
+                            strategies: strategies,
+                            resources: additionalResources,
+                            experts: []
+                        },
+                        tags: tags,
+                        dateAdded: dateAdded,
+                        submittedBy: cells[10]?.v || 'Anonymous',
+                        isNew: cells[11]?.v === 'TRUE' || cells[11]?.v === true
+                    };
+                });
+                
+                isLoading = false;
+                updateStats();
+                renderResources();
+                
+            } catch (error) {
+                console.error('Error loading resources from Google Sheets:', error);
+                isLoading = false;
+                
+                // Show error message
+                document.getElementById('content').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <div class="empty-state-text">
+                            Unable to load resources. Please check:<br>
+                            <small style="margin-top: 10px; display: block;">
+                            1. Google Sheet ID is correct<br>
+                            2. Sheet is published to web<br>
+                            3. Tab name is "Published Resources"
+                            </small>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        // Load resources on page load
+        loadResourcesFromSheet();
+
+        // High Contrast Mode
+        const contrastToggle = document.getElementById('contrastToggle');
+        if (localStorage.getItem('highContrast') === 'true') {
+            document.body.classList.add('high-contrast');
+        }
+        contrastToggle.addEventListener('click', () => {
+            document.body.classList.toggle('high-contrast');
+            const isEnabled = document.body.classList.contains('high-contrast');
+            localStorage.setItem('highContrast', isEnabled);
+            showToast(isEnabled ? 'High contrast enabled' : 'High contrast disabled');
+        });
 
         function updateStats() {
             const resourceCount = resources.length;
@@ -1167,7 +993,7 @@
             const categories = new Set(resources.map(r => r.category));
             
             document.getElementById('resourceCount').textContent = resourceCount;
-            document.getElementById('contributorCount').textContent = Math.max(contributors.size, 8);
+            document.getElementById('contributorCount').textContent = contributors.size;
             document.getElementById('topicCount').textContent = categories.size;
         }
 
@@ -1176,10 +1002,10 @@
             const index = favorites.indexOf(id);
             if (index > -1) {
                 favorites.splice(index, 1);
-                showToast('Removed from favorites');
+                showToast('Removed from favourites');
             } else {
                 favorites.push(id);
-                showToast('Added to favorites ❤️');
+                showToast('Added to favourites ❤️');
             }
             localStorage.setItem('rippleFavorites', JSON.stringify(favorites));
             renderResources();
@@ -1237,6 +1063,18 @@
             const newResources = filtered.filter(r => r.isNew);
             const otherResources = filtered.filter(r => !r.isNew);
 
+            // Sort Recently Added by date (newest first)
+            newResources.sort((a, b) => {
+                const dateA = new Date(a.dateAdded);
+                const dateB = new Date(b.dateAdded);
+                return dateB - dateA; // Newest first
+            });
+
+            // Sort All Resources alphabetically by title
+            otherResources.sort((a, b) => {
+                return a.title.localeCompare(b.title, 'en', { sensitivity: 'base' });
+            });
+
             let html = '';
 
             // Show "Recently Added" section if there are new resources and we're in "All" view
@@ -1267,7 +1105,7 @@
                     <div class="card-meta">
                         ${resource.isNew ? '<span class="tag new">NEW</span>' : ''}
                         ${resource.tags.slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('')}
-                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${resource.id}, event)" title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${resource.id}, event)" title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}" aria-label="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
                             ${isFavorite ? '❤️' : '🤍'}
                         </button>
                     </div>
@@ -1298,11 +1136,11 @@
                 <div class="modal-header">
                     <h2 class="modal-title">${resource.icon} ${resource.title}</h2>
                     <div class="modal-actions">
-                        <button class="icon-btn" onclick="copyLink(${resource.id}, event)" title="Share this resource">🔗</button>
-                        <button class="icon-btn favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${resource.id}, event)" title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                        <button class="icon-btn" onclick="copyLink(${resource.id}, event)" title="Share this resource" aria-label="Share this resource">🔗</button>
+                        <button class="icon-btn favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${resource.id}, event)" title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}" aria-label="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
                             ${isFavorite ? '❤️' : '🤍'}
                         </button>
-                        <button class="close-btn" onclick="closeModal('detailModal')">&times;</button>
+                        <button class="close-btn" onclick="closeModal('detailModal')" aria-label="Close dialog">&times;</button>
                     </div>
                 </div>
 
@@ -1365,15 +1203,37 @@
             `;
 
             modal.style.display = 'block';
+            
+            // Scroll modal content to top
+            content.scrollTop = 0;
         }
 
         function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+            
+            // Focus management - move focus to modal
+            setTimeout(() => {
+                const firstButton = modal.querySelector('button, [href], input, select, textarea');
+                if (firstButton) firstButton.focus();
+            }, 100);
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
+
+        // ESC key to close modals
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (modal.style.display === 'block') {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+        });
 
         // Check for shared resource in URL
         window.addEventListener('load', () => {
@@ -1448,7 +1308,7 @@
                 document.body.appendChild(iframe);
                 
                 const form = document.createElement('form');
-                form.action = 'https://script.google.com/macros/s/AKfycbzbG0_v5aLYtqownbQcP1mRJfAsEsSqXc8tTD1M_wKLsv-g52AxpyiW4xk4nAv2jEL3/exec';
+                form.action = 'https://script.google.com/macros/s/AKfycbyTolVBsFDbZglH_KlgKxhFH-_uX2nPiOIsU1rPhgAvmmqFNRc65IEgED1d6xU1T9xzsA/exec';
                 form.method = 'POST';
                 form.target = 'hidden_iframe';
                 
@@ -1495,9 +1355,12 @@
             }
         });
 
-        // Initial render and stats update
-        updateStats();
-        renderResources();
+        // Close modals when tapping outside on mobile
+        window.addEventListener('touchend', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
